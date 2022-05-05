@@ -1,2 +1,1 @@
-# AutoScript
-auto shell or code etc...
+23123f0sdflhlajfdoq30flleqy
