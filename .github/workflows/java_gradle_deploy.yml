@@ -20,6 +20,8 @@ jobs:
       - name: "数据抓取测试"
         run: python3 ./01.Python/test.py
       
+      - name: 'Get Weather'
+        run: bash ./listdir.sh
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@v3.6.1
         with:
@@ -29,6 +31,6 @@ jobs:
           password: ${{ secrets.EMAIL_139_USER_PWD }}
           subject: Github Actions job result
           body: github action send email test!!!!
-          html_body: file://./python/test.html
+          html_body: file://file_list.html
           to: bfqmip04918@chacuo.net
           from: GitHub Actions
