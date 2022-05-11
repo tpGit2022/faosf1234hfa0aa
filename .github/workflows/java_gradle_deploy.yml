@@ -13,9 +13,25 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-        with:
-          arguments: build
+          
+          
+    - name: Send mail
+      uses: dawidd6/action-send-mail@v3
+      with:
+    # Required mail server address:
+    server_address: smtp.139.com
+    # Required mail server port:
+    server_port: 465
+    # Optional (recommended): mail server username:
+    username: ${{secrets.EMAIL_139_USER_NAME}}
+    # Optional (recommended) mail server password:
+    password: ${{secrets.EMAIL_139_USER_PWD}}
+    # Required mail subject:
+    subject: Github Actions job result
+    # Required recipients' addresses:
+    to: 1379126606@qq.com
+    # Required sender full name (address can be skipped):
+    from: tp@qq.com
+    # Optional whether this connection use TLS (default is true if server_port is 465)
+    secure: true
+    body: github action send email test!!!!
