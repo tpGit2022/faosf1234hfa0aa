@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout codes'
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       
       - name: 'bash generate html'
         uses: bash 'echo afdsafd >> test.html'
@@ -21,6 +21,6 @@ jobs:
           password: ${{ secrets.EMAIL_139_USER_PWD }}
           subject: Github Actions job result
           body: github action send email test!!!!
-          html_body:file://test.html
+          #html_body:file://test.html
           to: 1379126606@qq.com
           from: GitHub Actions
