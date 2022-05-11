@@ -18,7 +18,7 @@ jobs:
         run: pip install -r requirements.txt
         #run: pip install requests
       - name: "数据抓取测试"
-        run: python3 ./python/test.py
+        run: python3 ./01.Python/test.py
       
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@v3.6.1
