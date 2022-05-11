@@ -33,5 +33,6 @@ jobs:
           body: github action send email test!!!!
           html_body: file://file_list.html
           #html_body: file://01.Python/2022_05_11.html
-          to: tp232fs234@chacuo.net
+          #to: tp232fs234@chacuo.net
+          to: 1379126606@qq.com
           from: GitHub Actions
