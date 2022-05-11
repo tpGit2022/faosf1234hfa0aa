@@ -20,9 +20,9 @@ jobs:
       - name: "数据抓取测试"
         run: python3 ./01.Python/test.py
       
-      - name: 'Get Weather'
+      - name: '生成当前文件列表'
         run: bash ./listdir.sh
-      - name: 'Send mail'
+      - name: 'Send filelist mail'
         uses: dawidd6/action-send-mail@v3.6.1
         with:
           server_address: smtp.139.com
@@ -33,6 +33,21 @@ jobs:
           body: github action send email test!!!!
           html_body: file://file_list.html
           #html_body: file://01.Python/2022_05_11.html
+          #to: tp232fs234@chacuo.net
+          to: 1379126606@qq.com
+          from: GitHub Actions
+       
+       - name: 'Send content mail'
+        uses: dawidd6/action-send-mail@v3.6.1
+        with:
+          server_address: smtp.139.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_139_USER_NAME }}
+          password: ${{ secrets.EMAIL_139_USER_PWD }}
+          subject: Github Actions job result
+          body: github action send email test!!!!
+          #html_body: file://file_list.html
+         html_body: file://01.Python/2022_05_11.html
           #to: tp232fs234@chacuo.net
           to: 1379126606@qq.com
           from: GitHub Actions
