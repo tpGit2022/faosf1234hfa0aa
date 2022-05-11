@@ -1,6 +1,9 @@
 name: Python CI
 
 on: [push]
+    schedule:
+    - cron: '30 1 * * *'
+    - cron: '50 12 * * *'
 
 jobs:
   bot:
@@ -34,5 +37,5 @@ jobs:
           html_body: file://2022_05_11.html
           #to: tp232fs234@chacuo.net
           to: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
-          from: 111111
+          from: ${{ secrets.EMAIL_SEND_NAME }}
      
