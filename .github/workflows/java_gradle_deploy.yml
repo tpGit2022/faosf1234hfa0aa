@@ -30,22 +30,9 @@ jobs:
           password: ${{ secrets.EMAIL_163_USER_PWD }}
           subject: the file list about the compile
           body: Github Action Send File List
-          html_body: file://file_list.html
-          #html_body: file://2022_05_11.html
+          #html_body: file://file_list.html
+          html_body: file://2022_05_11.html
           #to: tp232fs234@chacuo.net
           to: tp232fs234@chacuo.net
           from: 111111
-      - name: 'Send filelist mail using 139'
-        uses: dawidd6/action-send-mail@v3.6.1
-        with:
-          server_address: smtp.139.com
-          server_port: 465
-          username: ${{ secrets.EMAIL_139_USER_NAME }}
-          password: ${{ secrets.EMAIL_139_USER_PWD }}
-          subject: the file list about the compile
-          body: Github Action Send File List
-          html_body: file://file_list.html
-          #html_body: file://2022_05_11.html
-          #to: tp232fs234@chacuo.net
-          to: tp232fs234@chacuo.net
-          from: 111111
+     
