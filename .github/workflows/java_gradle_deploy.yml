@@ -33,6 +33,6 @@ jobs:
           #html_body: file://file_list.html
           html_body: file://2022_05_11.html
           #to: tp232fs234@chacuo.net
-          to: tp232fs234@chacuo.net
+          to: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
           from: 111111
      
