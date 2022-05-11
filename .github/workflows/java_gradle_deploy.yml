@@ -34,8 +34,8 @@ jobs:
           html_body: file://file_list.html
           #html_body: file://01.Python/2022_05_11.html
           #to: tp232fs234@chacuo.net
-          to: tp232fs234@chacuo.net
-          from: GitHub Actions
+          to: 1379126606@chacuo.net
+          from: tp1986@139.com
        
       - name: 'Send content mail'
         uses: dawidd6/action-send-mail@v3.6.1
@@ -49,5 +49,5 @@ jobs:
           #html_body: file://file_list.html
           html_body: file://2022_05_11.html
           #to: tp232fs234@chacuo.net
-          to: tp232fs234@chacuo.net
-          from: GitHub Actions
+          to: 1379126606@chacuo.net
+          from: tp1986@139.com
