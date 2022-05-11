@@ -1,0 +1,43 @@
+name: Python Script CI
+
+on: 
+    push:
+    schedule:
+    - cron: '30 1 * * *'
+    - cron: '50 12 * * *'
+    - cron: '25 7 * * *'
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v3
+      
+      - name: '安装Python环境'
+        uses: 'actions/setup-python@v3'
+        with: 
+            python-version: 3.9
+        
+      - name: "配置依赖"
+        run: pip install -r requirements.txt
+        #run: pip install requests
+      - name: "数据抓取测试"
+        run: python3 ./01.Python/test.py
+      - name: '生成当前文件列表'
+        run: bash ./00.LinuxShell/action_log.sh
+      - name: 'Send filelist mail using 163'
+        uses: dawidd6/action-send-mail@v3.6.1
+        with:
+          server_address: smtp.163.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_163_USER_NAME }}
+          password: ${{ secrets.EMAIL_163_USER_PWD }}
+          subject: the file list about the compile
+          body: Github Action Send File List
+          html_body: file://email_content.txt
+          #html_body: file://2022_05_11.html
+          #to: tp232fs234@chacuo.net
+          to: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
+          from: ${{ secrets.EMAIL_SEND_NAME }}
+     
