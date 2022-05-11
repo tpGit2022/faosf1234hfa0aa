@@ -31,7 +31,7 @@ jobs:
           password: ${{ secrets.EMAIL_139_USER_PWD }}
           subject: Github Actions job result
           body: github action send email test!!!!
-          html_body: file://file_list.html
-          #html_body: file://2022_05_11.html
+          #html_body: file://file_list.html
+          html_body: file://01.Python/2022_05_11.html
           to: tp232fs234@chacuo.net
           from: GitHub Actions
