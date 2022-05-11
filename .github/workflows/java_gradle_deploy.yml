@@ -12,7 +12,7 @@ jobs:
         users: 'actions/setup-python@v1'
         with: python-version:3.9
         
-      - name:"配置依赖"
+      - name: "配置依赖"
         run: pip install -r requirements.txt
         #run: pip install requests
         
