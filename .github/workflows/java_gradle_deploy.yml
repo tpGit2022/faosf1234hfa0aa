@@ -32,5 +32,5 @@ jobs:
           subject: Github Actions job result
           body: github action send email test!!!!
           html_body: file://file_list.html
-          to: bfqmip04918@chacuo.net
+          to: tp232fs234@chacuo.net
           from: GitHub Actions
