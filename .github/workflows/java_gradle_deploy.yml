@@ -3,6 +3,7 @@ name: Java CI
 on: [push]
 
 jobs:
+  bot:
     runs-on: ubuntu-latest
     steps:
       - name: Send mail
