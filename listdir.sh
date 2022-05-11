@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ls -alR >> file_list.html
+ls -R >> file_list.html
