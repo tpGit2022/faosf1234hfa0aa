@@ -6,23 +6,16 @@ jobs:
   bot:
     runs-on: ubuntu-latest
     steps:
-      - name: Send mail
+      - name: 'Checkout codes'
+        uses: actions/checkout@v1
+      - name: 'Send mail'
         uses: dawidd6/action-send-mail@v3.6.1
         with:
-    # Required mail server address:
-        server_address: smtp.139.com
-    # Required mail server port:
-        server_port: 465
-    # Optional (recommended): mail server username:
-        username: ${{secrets.EMAIL_139_USER_NAME}}
-    # Optional (recommended) mail server password:
-        password: ${{secrets.EMAIL_139_USER_PWD}}
-    # Required mail subject:
-        subject: Github Actions job result
-    # Required recipients' addresses:
-        to: 1379126606@qq.com
-    # Required sender full name (address can be skipped):
-        from: tp@qq.com
-    # Optional whether this connection use TLS (default is true if server_port is 465)
-        secure: true
-        body: github action send email test!!!!
+          server_address: smtp.139.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_139_USER_NAME }}
+          password: ${{ secrets.EMAIL_139_USER_PWD }}
+          subject: Github Actions job result
+          body: github action send email test!!!!
+          to: 1379126606@qq.com
+          from: GitHub Actions
