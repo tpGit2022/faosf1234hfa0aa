@@ -2,7 +2,8 @@ name: Java CI
 
 on: [push]
 
-jobs:
+runs-on: ubuntu-latest
+steps:
     - name: Send mail
       uses: dawidd6/action-send-mail@v3.6.1
       with:
