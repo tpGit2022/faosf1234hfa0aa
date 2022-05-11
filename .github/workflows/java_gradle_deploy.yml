@@ -15,7 +15,6 @@ jobs:
       - name: "配置依赖"
         run: pip install -r requirements.txt
         #run: pip install requests
-        
       - name: "数据抓取测试"
         run: python3 python/test.py
       - name: 'Send mail'
