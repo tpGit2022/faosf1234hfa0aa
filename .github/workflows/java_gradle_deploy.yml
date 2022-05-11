@@ -1,4 +1,4 @@
-name: Java CI
+name: Python CI
 
 on: [push]
 
@@ -8,6 +8,13 @@ jobs:
     steps:
       - name: 'Checkout codes'
         uses: actions/checkout@v1
+      - name: '安装Python环境'
+        users: 'actions/setup-python@v1'
+        with: python-version:3.9
+      - name:"配置依赖"
+        run: pip install -r ./requirements.txt
+      - name: "数据抓取测试"
+        run: python3 python/test.py
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@v3.6.1
         with:
@@ -17,5 +24,6 @@ jobs:
           password: ${{ secrets.EMAIL_139_USER_PWD }}
           subject: Github Actions job result
           body: github action send email test!!!!
+          html_body:file://./tp_files/test.html
           to: 1379126606@qq.com
           from: GitHub Actions
