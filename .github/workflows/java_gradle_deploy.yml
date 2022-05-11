@@ -19,10 +19,9 @@ jobs:
         #run: pip install requests
       - name: "数据抓取测试"
         run: python3 ./01.Python/test.py
-      
       - name: '生成当前文件列表'
         run: bash ./listdir.sh
-        - name: 'Send filelist mail using 163'
+      - name: 'Send filelist mail using 163'
         uses: dawidd6/action-send-mail@v3.6.1
         with:
           server_address: smtp.163.com
