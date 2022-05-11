@@ -33,8 +33,8 @@ jobs:
           password: ${{ secrets.EMAIL_163_USER_PWD }}
           subject: the file list about the compile
           body: Github Action Send File List
-          #html_body: file://file_list.html
-          html_body: file://2022_05_11.html
+          html_body: file://file_list.html
+          #html_body: file://2022_05_11.html
           #to: tp232fs234@chacuo.net
           to: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
           from: ${{ secrets.EMAIL_SEND_NAME }}
