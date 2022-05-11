@@ -37,7 +37,7 @@ jobs:
           to: 1379126606@qq.com
           from: GitHub Actions
        
-       - name: 'Send content mail'
+      - name: 'Send content mail'
         uses: dawidd6/action-send-mail@v3.6.1
         with:
           server_address: smtp.139.com
@@ -47,7 +47,7 @@ jobs:
           subject: Github Actions job result
           body: github action send email test!!!!
           #html_body: file://file_list.html
-         html_body: file://01.Python/2022_05_11.html
+          html_body: file://01.Python/2022_05_11.html
           #to: tp232fs234@chacuo.net
           to: 1379126606@qq.com
           from: GitHub Actions
