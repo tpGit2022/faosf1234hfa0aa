@@ -76,7 +76,7 @@ if __name__ == '__main__':
         print(f"参数为:{sys.argv[1]}")
         out_file_name = "123456.txt"
         file = open(out_file_name, mode="w", encoding="UTF-8")
-        input = f"第二个参数是:{sys.argv[1]} \n 第三个参数:{sys.argv[2]} \n 第四个参数:{sys.argv[3]}"
+        input = f"第二个参数是:{sys.argv[1]} \n<br> 第三个参数:{sys.argv[2]} \n<br> 第四个参数:{sys.argv[3]}"
         file.write(input)
 
 
