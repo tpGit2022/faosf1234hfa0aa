@@ -26,7 +26,7 @@ jobs:
       - name: "数据抓取测试"
         run: python3 ./01.Python/test.py
       - name: "测试Python脚本"
-        run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 22013
+        run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 22013 2022_05_17
       - name: '生成当前文件列表'
         run: bash ./00.LinuxShell/action_log.sh
       - name: 'Send filelist mail using 163'
