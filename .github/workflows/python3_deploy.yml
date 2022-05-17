@@ -6,6 +6,7 @@ on:
     - cron: '30 1 * * *'
     - cron: '50 12 * * *'
     - cron: '25 7 * * *'
+    #- cron: '25 7 * * *'
 
 jobs:
   bot:
@@ -27,7 +28,7 @@ jobs:
       - name: "测试Python脚本"
         run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 22013
       - name: '生成当前文件列表'
-        run: bash ./action_log.sh
+        run: bash ./00.LinuxShell/action_log.sh
       - name: 'Send filelist mail using 163'
         uses: dawidd6/action-send-mail@v3.6.1
         with:
@@ -38,7 +39,7 @@ jobs:
           subject: the file list about the compile
           body: Github Action Send File List
           html_body: file://file_list.html
-          #html_body: file://2022_05_11.html
+          #html_body: file://123456.txt
           #to: tp232fs234@chacuo.net
           to: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
           from: ${{ secrets.EMAIL_SEND_NAME }}
