@@ -87,10 +87,11 @@ def get_lottery_info_from_office():
                 write_exec_result_to_file(rs)
 
     except Exception as ex:
-        print(f"Error {ex}")
-
+        error_msg = f"<br> python script exec exception see the info:<br>${ex}"
+        write_exec_result_to_file(error_msg)
     else:
-        print("ok")
+        success_msg = f"<br>python exec as expect"
+        write_exec_result_to_file(success_msg)
 
 def write_exec_result_to_file(str):
     out_file_name = "exec_result.html"
@@ -115,7 +116,6 @@ if __name__ == '__main__':
         # input = f"第二个参数是:{sys.argv[1]} \n<br> 第三个参数:{sys.argv[2]} \n<br> 第四个参数:{sys.argv[3]}"
         # file.write(input)
         # print(f"usr_input_code:{usr_input_code}")
-
     get_lottery_info_from_office()
 
 
