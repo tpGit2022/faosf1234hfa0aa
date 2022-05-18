@@ -6,6 +6,8 @@ import sys
 import json
 import requests
 import time
+import urllib3
+requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 
 usr_input_code = ""
 def lottery_code_check(input_code, release_code):
@@ -63,28 +65,40 @@ def lottery_code_check(input_code, release_code):
     return [0, 0]
 
 def get_lottery_info_from_office():
-    url = "https://webapi.sporttery.cn/gateway/lottery/getHistoryPageListV1.qry?gameNo=85&provinceId=0&pageSize=30&isVerify=1&pageNo=1&termLimits=30"
-    r = requests.get(url)
+    url = "https://www.gdlottery.cn/gdata/idx/tcnotice"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
+        "DNT": "1",
+        "X-Requested-With": "XMLHttpRequest",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "Windows",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "https://www.gdlottery.cn/?v=1652849733245"
+    }
+    r = requests.get(url, headers= headers)
     print(r.text)
-    dict = json.loads(r.text)
-    data_list = dict["value"]["list"]
-        # data_len  = len(data_list)
-        # for index in range(data_len):
-        #     print(f'{data_list[index]["lotteryDrawTime"]}:{data_list[index]["lotteryDrawResult"]}')
-    for data in data_list:
-            # print(f'{data["lotteryDrawTime"]}:{data["lotteryDrawResult"]}')
-        tp_list = list(data["lotteryDrawResult"])
-        tp_list.insert(-6, " ")
-        tp_list.insert(-6, "+")
-            # print(tp_list)
-        office_code = ''.join(tp_list)
-            # global usr_input_code
-            # usr_input_code = "11 14 22 23 27 + 08 10"
-        result_list = lottery_code_check(usr_input_code, office_code)
-        if result_list[0] != 0:
-            rs = f'{data["lotteryDrawTime"]} --> {data["lotteryDrawResult"]} --> result:{result_list}'
-            print(rs)
-            write_exec_result_to_file(rs)
+    write_exec_result_to_file(r.text)
+    # dict = json.loads(r.text)
+    # data_list = dict["value"]["list"]
+    #     # data_len  = len(data_list)
+    #     # for index in range(data_len):
+    #     #     print(f'{data_list[index]["lotteryDrawTime"]}:{data_list[index]["lotteryDrawResult"]}')
+    # for data in data_list:
+    #         # print(f'{data["lotteryDrawTime"]}:{data["lotteryDrawResult"]}')
+    #     tp_list = list(data["lotteryDrawResult"])
+    #     tp_list.insert(-6, " ")
+    #     tp_list.insert(-6, "+")
+    #         # print(tp_list)
+    #     office_code = ''.join(tp_list)
+    #         # global usr_input_code
+    #         # usr_input_code = "11 14 22 23 27 + 08 10"
+    #     result_list = lottery_code_check(usr_input_code, office_code)
+    #     if result_list[0] != 0:
+    #         rs = f'{data["lotteryDrawTime"]} --> {data["lotteryDrawResult"]} --> result:{result_list}'
+    #         print(rs)
+    #         write_exec_result_to_file(rs)
 
     # except Exception as ex:
     # error_msg = f"<br> python script exec exception see the info:<br>${ex}"
