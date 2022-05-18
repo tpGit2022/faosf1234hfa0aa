@@ -65,6 +65,7 @@ def lottery_code_check(input_code, release_code):
 def get_lottery_info_from_office():
     url = "https://webapi.sporttery.cn/gateway/lottery/getHistoryPageListV1.qry?gameNo=85&provinceId=0&pageSize=30&isVerify=1&pageNo=1&termLimits=30"
     r = requests.get(url)
+    print(r.text)
     dict = json.loads(r.text)
     data_list = dict["value"]["list"]
         # data_len  = len(data_list)
