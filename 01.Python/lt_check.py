@@ -80,7 +80,7 @@ def get_lottery_info_from_office():
     }
     r = requests.get(url, headers= headers)
     print(r.text)
-    write_exec_result_to_file(r.text)
+    # write_exec_result_to_file(r.text)
     lt_list = json.loads(r.text)
     origin_code = lt_list[0]["kjhm"]
     print(f"origin_code={origin_code}")
@@ -91,6 +91,9 @@ def get_lottery_info_from_office():
     if ret_list[0] !=0:
         print(ret_list)
         tp_str = f"<br>Congratulate you are so lucky {ret_list}<br>"
+        write_exec_result_to_file(tp_str)
+    else:
+        tp_str = f"<br>nothing hit...<br>"
         write_exec_result_to_file(tp_str)
 
     # data_list = dict["value"]["list"]
