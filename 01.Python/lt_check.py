@@ -18,8 +18,6 @@ requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 
 usr_input_code = ""
 need_send_email = False
-
-
 def lottery_code_check(input_code, release_code):
     """
     check code
@@ -74,7 +72,6 @@ def lottery_code_check(input_code, release_code):
         return [9, 5]
     return [0, 0]
 
-
 def get_lottery_info_from_office():
     url = "https://www.gdlottery.cn/gdata/idx/tcnotice"
     headers = {
@@ -88,7 +85,7 @@ def get_lottery_info_from_office():
         "Sec-Fetch-Dest": "empty",
         "Referer": "https://www.gdlottery.cn/?v=1652849733245"
     }
-    r = requests.get(url, headers=headers)
+    r = requests.get(url, headers= headers)
     print(r.text)
     # write_exec_result_to_file(r.text)
     lt_list = json.loads(r.text)
@@ -98,7 +95,7 @@ def get_lottery_info_from_office():
     origin_code = origin_code.replace("+", " ")
     origin_code = origin_code.replace("@", "+")
     ret_list = lottery_code_check(usr_input_code, origin_code)
-    if ret_list[0] != 0:
+    if ret_list[0] !=0:
         print(ret_list)
         tp_str = f"<br>Congratulate you are so lucky {ret_list}<br>"
         write_exec_result_to_file(tp_str)
@@ -132,24 +129,22 @@ def get_lottery_info_from_office():
     success_msg = f"<br>python exec as expect"
     write_exec_result_to_file(success_msg)
 
-
 def write_exec_result_to_file(str):
     out_file_name = "exec_result.html"
     file = open(out_file_name, mode="a+", encoding="UTF-8")
     input = f"<br>{str}"
     file.write(input)
 
-
 def write_message_header():
     time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
     tp_str = f"the python exec at {time_stamp}"
     r = requests.get("https://ip.gs/json")
     json_str = json.loads(r.text)
+    print(json_str)
     tp_str = tp_str + f"<br>IP:{json_str['ip']}<br>Country:{json_str['country']}<br>Region:{json_str['region_name']}" \
-        f"<br>City:{json_str['city']}<br>Latitude:{json_str['latitude']}\tlongitude:{json_str['longitude']}" \
-        f"<br>TimeZone:{json_str['time_zone']}"
+                      f"<br>City:{json_str['city']}<br>Latitude:{json_str['latitude']}\tlongitude:{json_str['longitude']}" \
+                      f"<br>TimeZone:{json_str['time_zone']}"
     write_exec_result_to_file(tp_str)
-
 
 def send_email_with_smtp():
     if need_send_email != True:
@@ -163,19 +158,16 @@ def send_email_with_smtp():
     # email_config_server_recv_user_name = os.environ['EMAIL_SMTP_REV']
 
     # smtp_obj.starttls()
-    msg = MIMEText(
-        'hello\nfsfsfs\nsfsafasfas\nsfasfasfdas\nsfasdfas\nfsfas\r\nfasfasfs<br>fasfdasfd', 'plain', 'UTF-8')
+    msg = MIMEText('hello\nfsfsfs\nsfsafasfas\nsfasfasfdas\nsfasdfas\nfsfas\r\nfasfasfs<br>fasfdasfd', 'plain', 'UTF-8')
     msg['From'] = formataddr(['smtp_python_user_name', 'tp_net_cloud@163.com'])
     msg['To'] = Header('1379126606@qq.com', 'UTF-8')
     msg['Subject'] = Header('test python email module', 'UTF-8').encode()
     smtp_obj = smtplib.SMTP_SSL("smtp.163.com", "465")
 
-    # smtp_obj.set_debuglevel(1)
+    #smtp_obj.set_debuglevel(1)
     smtp_obj.login(user="tp_net_cloud@163.com", password="CSLMENAXCRLOPQDW")
-    smtp_obj.sendmail('tp_net_cloud@163.com',
-                      ['1379126606@qq.com'], msg.as_string())
+    smtp_obj.sendmail('tp_net_cloud@163.com', ['1379126606@qq.com'], msg.as_string())
     smtp_obj.quit()
-
 
 if __name__ == '__main__':
     send_email_with_smtp()
@@ -190,3 +182,5 @@ if __name__ == '__main__':
         # file.write(input)
         # print(f"usr_input_code:{usr_input_code}")
     get_lottery_info_from_office()
+
+
