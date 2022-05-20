@@ -165,7 +165,7 @@ def send_email_with_smtp():
     smtp_obj = smtplib.SMTP_SSL("smtp.163.com", "465")
 
     #smtp_obj.set_debuglevel(1)
-    smtp_obj.login(user="tp_net_cloud@163.com", password="CSLMENAXCRLOPQDW")
+    smtp_obj.login(user="tp_net_cloud@163.com", password="")
     smtp_obj.sendmail('tp_net_cloud@163.com', ['1379126606@qq.com'], msg.as_string())
     smtp_obj.quit()
 
