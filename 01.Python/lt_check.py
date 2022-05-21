@@ -132,21 +132,21 @@ def write_message_header():
 
 
 def send_email_with_smtp():
-    # if not need_send_email:
-    #     print("GitHub Action Python Script, Do not trigger Send Email Action")
-    #     return
+    if not need_send_email:
+        print("GitHub Action Python Script, Do not trigger Send Email Action")
+        return
     # py3_env = os.environ['PYTHON3HOME']
     print(os.environ)
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
-    print(f"1:{email_config_server_domain}")
+    # print(f"1:{email_config_server_domain}")
     email_config_server_port = os.environ['EMAIL_SMTP_PORT']
-    print(f'2{email_config_server_port}')
+    # print(f'2{email_config_server_port}')
     email_config_server_user_name = os.environ['EMAIL_SMTP_USER_NAME']
-    print(f'3{email_config_server_user_name}')
+    # print(f'3{email_config_server_user_name}')
     email_config_server_user_pwd = os.environ['EMAIL_SMTP_USER_PWD']
-    print(f'4{email_config_server_user_pwd}')
+    # print(f'4{email_config_server_user_pwd}')
     email_config_server_recv_user_name = os.environ['EMAIL_SMTP_REV']
-    print(f'5{email_config_server_recv_user_name}')
+    # print(f'5{email_config_server_recv_user_name}')
 
     with open(report_file_name, 'r') as report_f:
         report_string = report_f.read()
@@ -159,10 +159,9 @@ def send_email_with_smtp():
     # msg['Subject'] = Header('test python email module', 'UTF-8').encode()
     #
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
-
     smtp_obj.set_debuglevel(1)
-    smtp_obj.login(user=email_config_server_user_pwd, password=email_config_server_user_pwd)
-    smtp_obj.sendmail('tp_net_cloud@163.com', [email_config_server_recv_user_name], msg.as_string())
+    smtp_obj.login(user=email_config_server_user_name, password=email_config_server_user_pwd)
+    smtp_obj.sendmail(email_config_server_user_name, email_config_server_recv_user_name, msg.as_string())
     smtp_obj.quit()
 
 
@@ -178,5 +177,5 @@ if __name__ == '__main__':
         get_lottery_info_from_office()
     except KeyError:
         need_send_email = True
-    need_send_email = True
+    # need_send_email = True
     send_email_with_smtp()
