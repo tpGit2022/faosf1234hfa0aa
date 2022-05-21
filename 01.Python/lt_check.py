@@ -136,6 +136,7 @@ def send_email_with_smtp():
     #     print("GitHub Action Python Script, Do not trigger Send Email Action")
     #     return
     # py3_env = os.environ['PYTHON3HOME']
+    print(os.environ)
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
     print(f"1:{email_config_server_domain}")
     email_config_server_port = os.environ['EMAIL_SMTP_PORT']
