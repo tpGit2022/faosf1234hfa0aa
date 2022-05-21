@@ -22,10 +22,7 @@ jobs:
       - name: "配置依赖"
         run: pip install -r requirements.txt
         #run: pip install requests
-      - name: "数据抓取测试"
-        run: python3 ./01.Python/test.py
-      - name: "测试Python脚本"
-        run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 22047 2022_04_30
+
       - name: '生成当前文件列表'
         run: bash ./00.LinuxShell/action_log.sh
       - name: 'Send filelist mail using 163'
@@ -42,4 +39,8 @@ jobs:
           #to: tp232fs234@chacuo.net
           to: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
           from: ${{ secrets.EMAIL_SEND_NAME }}
+      - name: "数据抓取测试"
+        run: python3 ./01.Python/test.py
+      - name: "测试Python脚本"
+        run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 22047 2022_04_30
      
