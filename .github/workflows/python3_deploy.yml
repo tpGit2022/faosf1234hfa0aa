@@ -1,7 +1,7 @@
 name: Python CI
 
 on: 
-    [push, pull-request]
+    [push, pull-request]:
     schedule:
     - cron: '30 22 * * *'
     - cron: '45 12 * * *'
