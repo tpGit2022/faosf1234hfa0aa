@@ -43,11 +43,11 @@ jobs:
         run: python3 ./01.Python/test.py
       - name: "测试Python脚本"
         env:
-            EMAIL_SMTP_DOMAIN: ${{ secrets.EMAIL_SMTP_DOMAIN }}
-            EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
-            EMAIL_SMTP_REV: ${{ secrets.EMAIL_SMTP_REV }}
-            EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
-            EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}
+            EMAIL_SMTP_DOMAIN: ${{ env.EMAIL_SMTP_DOMAIN }}
+            EMAIL_SMTP_PORT: ${{ env.EMAIL_SMTP_PORT }}
+            EMAIL_SMTP_REV: ${{ env.EMAIL_SMTP_REV }}
+            EMAIL_SMTP_USER_NAME: ${{ env.EMAIL_SMTP_USER_NAME }}
+            EMAIL_SMTP_USER_PWD: ${{ env.EMAIL_SMTP_USER_PWD }}
         run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 22047 2022_04_30
     
      
