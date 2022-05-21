@@ -11,7 +11,6 @@ from email.header import Header
 from email.mime.text import MIMEText
 
 import requests
-
 # avoid ssl error
 requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 
@@ -134,7 +133,7 @@ def write_message_header():
 
 def send_email_with_smtp():
     # if not need_send_email:
-    #     print("Github Action Python Script, Do not trigger Send Email Action")
+    #     print("GitHub Action Python Script, Do not trigger Send Email Action")
     #     return
     # py3_env = os.environ['PYTHON3HOME']
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
