@@ -48,6 +48,7 @@ jobs:
             EMAIL_SMTP_REV: ${{ env.EMAIL_SMTP_REV }}
             EMAIL_SMTP_USER_NAME: ${{ env.EMAIL_SMTP_USER_NAME }}
             EMAIL_SMTP_USER_PWD: ${{ env.EMAIL_SMTP_USER_PWD }}
+            ENV_TEST_SE: ${{ secrets.EMAIL_SEND_NAME }}
         run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 22047 2022_04_30
     
      
