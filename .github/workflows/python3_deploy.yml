@@ -1,7 +1,7 @@
 name: Python CI
 
 on: 
-    push:
+    [push, pull-request]
     schedule:
     - cron: '30 22 * * *'
     - cron: '45 12 * * *'
@@ -23,8 +23,8 @@ jobs:
         run: pip install -r requirements.txt
         #run: pip install requests
 
-      - name: '生成当前文件列表'
-        run: bash ./00.LinuxShell/action_log.sh
+      #- name: '生成当前文件列表'
+       # run: bash ./00.LinuxShell/action_log.sh
       #- name: 'Send filelist mail using 163'
        # uses: dawidd6/action-send-mail@v3.6.1
         #with:
