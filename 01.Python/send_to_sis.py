@@ -132,9 +132,9 @@ def write_message_header():
 
 
 def send_email_with_smtp():
-    if not need_send_email:
-        print("GitHub Action Python Script, Do not trigger Send Email Action")
-        return
+    #if not need_send_email:
+     #   print("GitHub Action Python Script, Do not trigger Send Email Action")
+      #  return
     # py3_env = os.environ['PYTHON3HOME']
     print(os.environ)
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']

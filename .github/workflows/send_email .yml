@@ -40,7 +40,7 @@ jobs:
           #from: ${{ secrets.EMAIL_SEND_NAME }}
       #- name: "数据抓取测试"
       #  run: python3 ./01.Python/test.py
-      - name: "Python LT Check"
+      - name: "Python Send EMail To Sis"
         env:
             EMAIL_SMTP_DOMAIN: smtp.163.com
             EMAIL_SMTP_PORT: 465
