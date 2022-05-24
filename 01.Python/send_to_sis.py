@@ -118,7 +118,7 @@ def write_exec_result_to_file(log_str):
 
 def write_message_header():
     m_time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-    tp_str = f"the python exec at {m_time_stamp}"
+    tp_str = f"<br><br><br><br>the python exec at {m_time_stamp}"
     r = requests.get("https://ip.gs/json")
     json_str = json.loads(r.text)
     print(json_str)
@@ -187,12 +187,12 @@ def get_weather_info():
              f"当前城市:{weather_list['cityInfo']['parent']}-{weather_list['cityInfo']['city']}<br>" \
              f"日期:{weather_list['data']['forecast'][0]['date']}--{weather_list['data']['forecast'][0]['week']}<br>" \
              f"天气:{weather_list['data']['forecast'][0]['type']}<br>" \
-             f"最高温度:{weather_list['data']['forecast'][0]['high']}<br>最低温度:{weather_list['data']['forecast'][0]['low']}" \
+             f"{weather_list['data']['forecast'][0]['high']}<br>{weather_list['data']['forecast'][0]['low']}<br>" \
              f"日出时分:{weather_list['data']['forecast'][0]['sunrise']}<br>日落时分:{weather_list['data']['forecast'][0]['sunset']}<br>" \
              f"风向:{weather_list['data']['forecast'][0]['fx']}<br>风级:{weather_list['data']['forecast'][0]['fl']}"
     write_exec_result_to_file(tp_str)
 
 if __name__ == '__main__':
-    write_message_header()
     get_weather_info()
+    write_message_header()
     send_email_with_smtp()
