@@ -181,11 +181,15 @@ def get_weather_info():
         "Referer": "https://www.gdlottery.cn/?v=1652849733245"
     }
     r = requests.get(url, headers=headers)
-    # print(r.text)
+    print(r.text)
     weather_list = json.loads(r.text)
     tp_str = f"时间:{weather_list.get('time', 'None')}<br>" \
              f"当前城市:{weather_list['cityInfo']['parent']}-{weather_list['cityInfo']['city']}<br>" \
-             f"空气湿度:{weather_list['data']['shidu']}<br>PM2.5:{weather_list['data']['pm25']}"
+             f"日期:{weather_list['data']['forecast'][0]['date']}--{weather_list['data']['forecast'][0]['week']}<br>" \
+             f"天气:{weather_list['data']['forecast'][0]['type']}<br>" \
+             f"最高温度:{weather_list['data']['forecast'][0]['high']}<br>最低温度:{weather_list['data']['forecast'][0]['low']}" \
+             f"日出时分:{weather_list['data']['forecast'][0]['sunrise']}<br>日落时分:{weather_list['data']['forecast'][0]['sunset']}<br>" \
+             f"风向:{weather_list['data']['forecast'][0]['fx']}<br>风级:{weather_list['data']['forecast'][0]['fl']}"
     write_exec_result_to_file(tp_str)
 
 if __name__ == '__main__':
