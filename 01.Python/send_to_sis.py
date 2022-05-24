@@ -153,7 +153,7 @@ def send_email_with_smtp():
     msg = MIMEText(report_string, 'plain', 'UTF-8')
     msg['From'] = f"{email_config_server_user_name}"
     msg['To'] = f"{email_config_server_recv_user_name}"
-    msg['Subject'] = Header("Python LT Script Check Result", 'UTF-8').encode()
+    msg['Subject'] = Header("玲仔笑一笑，玲仔十年少", 'UTF-8').encode()
     # msg['From'] = formataddr(['smtp_python_user_name', f"{email_config_server_user_name}")
     # msg['To'] = Header(email_config_server_recv_user_name, 'UTF-8')
     # msg['Subject'] = Header('test python email module', 'UTF-8').encode()
