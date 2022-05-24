@@ -118,7 +118,7 @@ def write_exec_result_to_file(log_str):
 
 def write_message_header():
     m_time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-    tp_str = f"<br><br><br><br>the python exec at {m_time_stamp}"
+    tp_str = f"<br><br><br><br>the python exec at {m_time_stamp}<br>"
     r = requests.get("https://ip.gs/json")
     json_str = json.loads(r.text)
     print(json_str)
@@ -151,7 +151,7 @@ def send_email_with_smtp():
     with open(report_file_name, 'r') as report_f:
         report_string = report_f.read()
     msg = MIMEText(report_string, 'plain', 'UTF-8')
-    msg['From'] = f"猜猜我是谁"
+    msg['From'] = f"杨总裁的小秘书"
     msg['To'] = f"{email_config_server_recv_user_name}"
     msg['Subject'] = Header("玲仔笑一笑，玲仔十年少", 'UTF-8').encode()
     # msg['From'] = formataddr(['smtp_python_user_name', f"{email_config_server_user_name}")
