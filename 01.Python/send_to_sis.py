@@ -123,11 +123,11 @@ def write_message_header():
     json_str = json.loads(r.text)
     print(json_str)
 
-    tp_str = tp_str + f"<br>IP:{json_str['ip']}<br>Country:{json_str['country']}<br>" \
-                      f"Region:{json_str.get('region_name', None)}" \
-                      f"<br>City:{json_str.get('city', None)}<br>Latitude:{json_str.get('latitude', None)}\t" \
-                      f"longitude:{json_str.get('longitude', None)}" \
-                      f"<br>TimeZone:{json_str['time_zone']}<br>asnOrg:{json_str.get('asn_org', None)}"
+    tp_str = tp_str + f"IP信息如下:<br><br>IP:{json_str['ip']}<br>国家:{json_str['country']}<br>" \
+                      f"区域:{json_str.get('region_name', None)}" \
+                      f"<br>城市:{json_str.get('city', None)}<br>纬度:{json_str.get('latitude', None)}\t" \
+                      f"经度:{json_str.get('longitude', None)}" \
+                      f"<br>时区:{json_str['time_zone']}<br>asnOrg:{json_str.get('asn_org', None)}"
     write_exec_result_to_file(tp_str)
 
 
