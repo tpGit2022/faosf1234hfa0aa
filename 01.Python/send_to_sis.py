@@ -5,12 +5,12 @@ import json
 import os
 import re
 import smtplib
-import sys
 import time
 from email.header import Header
 from email.mime.text import MIMEText
 
 import requests
+
 # avoid ssl error
 requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 
@@ -132,9 +132,9 @@ def write_message_header():
 
 
 def send_email_with_smtp():
-    #if not need_send_email:
-     #   print("GitHub Action Python Script, Do not trigger Send Email Action")
-      #  return
+    # if not need_send_email:
+    #   print("GitHub Action Python Script, Do not trigger Send Email Action")
+    #  return
     # py3_env = os.environ['PYTHON3HOME']
     print(os.environ)
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
@@ -191,6 +191,7 @@ def get_weather_info():
              f"日出时分:{weather_list['data']['forecast'][0]['sunrise']}<br>日落时分:{weather_list['data']['forecast'][0]['sunset']}<br>" \
              f"风向:{weather_list['data']['forecast'][0]['fx']}<br>风级:{weather_list['data']['forecast'][0]['fl']}"
     write_exec_result_to_file(tp_str)
+
 
 if __name__ == '__main__':
     get_weather_info()
