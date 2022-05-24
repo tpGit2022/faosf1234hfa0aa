@@ -151,7 +151,7 @@ def send_email_with_smtp():
     with open(report_file_name, 'r') as report_f:
         report_string = report_f.read()
     msg = MIMEText(report_string, 'plain', 'UTF-8')
-    msg['From'] = f"{email_config_server_user_name}"
+    msg['From'] = f"猜猜我是谁"
     msg['To'] = f"{email_config_server_recv_user_name}"
     msg['Subject'] = Header("玲仔笑一笑，玲仔十年少", 'UTF-8').encode()
     # msg['From'] = formataddr(['smtp_python_user_name', f"{email_config_server_user_name}")
@@ -165,17 +165,30 @@ def send_email_with_smtp():
     smtp_obj.quit()
 
 
+def get_weather_info():
+    # http://t.weather.itboy.net/api/weather/city/101230501 泉州天气
+    url = "http://t.weather.itboy.net/api/weather/city/101230501"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/98.0.4758.102 Safari/537.36",
+        "DNT": "1",
+        "X-Requested-With": "XMLHttpRequest",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "Windows",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "https://www.gdlottery.cn/?v=1652849733245"
+    }
+    r = requests.get(url, headers=headers)
+    # print(r.text)
+    weather_list = json.loads(r.text)
+    tp_str = f"时间:{weather_list.get('time', 'None')}<br>" \
+             f"当前城市:{weather_list['cityInfo']['parent']}-{weather_list['cityInfo']['city']}<br>" \
+             f"空气湿度:{weather_list['data']['shidu']}<br>PM2.5:{weather_list['data']['pm25']}"
+    write_exec_result_to_file(tp_str)
+
 if __name__ == '__main__':
     write_message_header()
-    try:
-        if len(sys.argv) >= 2:
-            usr_input_code = sys.argv[1]
-        if len(sys.argv) >= 5:
-            time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-            start_time = sys.argv[4]
-            term_period = sys.argv[3]
-        get_lottery_info_from_office()
-    except KeyError:
-        need_send_email = True
-    # need_send_email = True
+    get_weather_info()
     send_email_with_smtp()
