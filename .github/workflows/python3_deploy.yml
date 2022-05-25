@@ -48,6 +48,6 @@ jobs:
             EMAIL_SMTP_REV: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
             EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_163_USER_NAME }}
             EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_163_USER_PWD }}
-        run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 12 2022_04_30
+        run: python3 ./01.Python/lt_check.py "${{ secrets.LT_INPUT_CODE }}" 12 2022_05_25
     
      
