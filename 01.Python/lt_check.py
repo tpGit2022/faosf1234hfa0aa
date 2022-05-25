@@ -197,7 +197,7 @@ def fun_exec():
             start_time = sys.argv[4]
             term_period = sys.argv[3]
             print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
-            is_outdated = check_outdated(period_nums = term_period, start_time = start_time)
+            is_outdated = check_outdated(period_nums = int(term_period), start_time = start_time)
             if is_outdated:
                 global need_send_email
                 need_send_email = need_send_email | 0b01
