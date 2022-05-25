@@ -76,6 +76,7 @@ def lottery_code_check(input_code, release_code):
 
 
 def get_lottery_info_from_office():
+    print(f"get_lottery_info_from_office")
     url = "https://www.gdlottery.cn/gdata/idx/tcnotice"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -99,7 +100,7 @@ def get_lottery_info_from_office():
     origin_code = origin_code.replace("@", "+")
     ret_list = lottery_code_check(usr_input_code, origin_code)
     if ret_list[0] != 0:
-        print(ret_list)
+        print(f"ret_list={ret_list}")
         global need_send_email
         need_send_email = need_send_email | 0b10
         tp_str = f"<br>Congratulate you are so lucky {ret_list}<br>"
@@ -133,6 +134,7 @@ def write_message_header():
 
 
 def send_email_with_smtp():
+    print(f"send_email_with_smtp need_send_email={need_send_email}")
     if need_send_email == 0b00:
         print("GitHub Action Python Script, Do not trigger Send Email Action")
         return
@@ -186,7 +188,6 @@ def check_outdated(period_nums, start_time):
 
 
 def fun_exec():
-
     write_message_header()
     if len(sys.argv) >= 2:
         usr_input_code = sys.argv[1]
