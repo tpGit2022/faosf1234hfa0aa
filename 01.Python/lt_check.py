@@ -90,7 +90,7 @@ def get_lottery_info_from_office():
         "Referer": "https://www.gdlottery.cn/?v=1652849733245"
     }
     r = requests.get(url, headers=headers)
-    # print(r.text)
+    print(r.text)
     lt_list = json.loads(r.text)
     origin_code = lt_list[0]["kjhm"]
     print(f"origin_code={origin_code}")
@@ -155,11 +155,11 @@ def send_email_with_smtp():
     msg['From'] = f"小秘书"
     msg['To'] = f"{email_config_server_recv_user_name}"
     if need_send_email == 0b11:
-        msg['Subject'] = Header("恭喜你中奖了，快临近截至日期了，快去重新购买一张吧", 'UTF-8').encode()
+        msg['Subject'] = Header("恭喜你中奖了!!!，快临近截至日期了!!!", 'UTF-8').encode()
     if need_send_email == 0b10:
         msg['Subject'] = Header("恭喜你中奖了", 'UTF-8').encode()
     if need_send_email == 0b01:
-        msg['Subject'] = Header("快临近截至日期了，快去重新购买一张吧", 'UTF-8').encode()
+        msg['Subject'] = Header("快临近截至日期了!!!", 'UTF-8').encode()
 
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
     smtp_obj.set_debuglevel(1)
@@ -188,22 +188,19 @@ def check_outdated(period_nums, start_time):
 def fun_exec():
 
     write_message_header()
-    try:
-        if len(sys.argv) >= 2:
-            usr_input_code = sys.argv[1]
-            print(f"usr_input_code={usr_input_code}")
-        if len(sys.argv) >= 5:
-            time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-            start_time = sys.argv[4]
-            term_period = sys.argv[3]
-            print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
-            is_outdated = check_outdated(period_nums = int(term_period), start_time = start_time)
-            if is_outdated:
-                global need_send_email
-                need_send_email = need_send_email | 0b01
-        get_lottery_info_from_office()
-    except KeyError:
-        need_send_email = True
+    if len(sys.argv) >= 2:
+        usr_input_code = sys.argv[1]
+        print(f"usr_input_code={usr_input_code}")
+    if len(sys.argv) >= 5:
+        time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+        start_time = sys.argv[4]
+        term_period = sys.argv[3]
+        print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
+        is_outdated = check_outdated(period_nums = int(term_period), start_time = start_time)
+        if is_outdated:
+            global need_send_email
+            need_send_email = need_send_email | 0b01
+    get_lottery_info_from_office()
     # need_send_email = True
     send_email_with_smtp()
 
