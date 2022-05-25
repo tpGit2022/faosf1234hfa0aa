@@ -27,10 +27,9 @@ def lottery_code_check(input_code, release_code):
     :param release_code: the code publish by office
     :return: the prize
     """
-    input_code = input_code.lstrip()
-    input_code = input_code.rstrip()
-    release_code = release_code.lstrip()
-    release_code = release_code.rstrip()
+    # print(f"input_code={input_code} release_code={release_code}")
+    input_code = input_code.strip()
+    release_code = release_code.strip()
 
     if input_code.find("+") < 0:
         return [0, -998]
@@ -76,7 +75,7 @@ def lottery_code_check(input_code, release_code):
 
 
 def get_lottery_info_from_office():
-    print(f"get_lottery_info_from_office")
+    # print(f"get_lottery_info_from_office")
     url = "https://www.gdlottery.cn/gdata/idx/tcnotice"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -91,16 +90,16 @@ def get_lottery_info_from_office():
         "Referer": "https://www.gdlottery.cn/?v=1652849733245"
     }
     r = requests.get(url, headers=headers)
-    print(r.text)
+    # print(r.text)
     lt_list = json.loads(r.text)
     origin_code = lt_list[0]["kjhm"]
-    print(f"origin_code={origin_code}")
+    print(f"office_release_code={origin_code}")
     origin_code = origin_code.replace(" ", "@")
     origin_code = origin_code.replace("+", " ")
     origin_code = origin_code.replace("@", "+")
     ret_list = lottery_code_check(usr_input_code, origin_code)
+    print(f"ret_list={ret_list}")
     if ret_list[0] != 0:
-        print(f"ret_list={ret_list}")
         global need_send_email
         need_send_email = need_send_email | 0b10
         tp_str = f"<br>Congratulate you are so lucky {ret_list}<br>"
@@ -139,7 +138,7 @@ def send_email_with_smtp():
         print("GitHub Action Python Script, Do not trigger Send Email Action")
         return
 
-    print(os.environ)
+    # print(os.environ)
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
     # print(f"1:{email_config_server_domain}")
     email_config_server_port = os.environ['EMAIL_SMTP_PORT']
@@ -164,7 +163,7 @@ def send_email_with_smtp():
         msg['Subject'] = Header("快临近截至日期了!!!", 'UTF-8').encode()
 
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
-    smtp_obj.set_debuglevel(1)
+    # smtp_obj.set_debuglevel(1)
     smtp_obj.login(user=email_config_server_user_name, password=email_config_server_user_pwd)
     smtp_obj.sendmail(email_config_server_user_name, email_config_server_recv_user_name, msg.as_string())
     smtp_obj.quit()
@@ -190,14 +189,16 @@ def check_outdated(period_nums, start_time):
 def fun_exec():
     write_message_header()
     if len(sys.argv) >= 2:
+        global usr_input_code
         usr_input_code = sys.argv[1]
-        print(f"usr_input_code={usr_input_code}")
+        # print(f"usr_input_code={usr_input_code}")
     if len(sys.argv) >= 5:
         time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-        start_time = sys.argv[4]
-        term_period = sys.argv[3]
-        print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
+        term_period = sys.argv[2]
+        start_time = sys.argv[3]
+        # print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
         is_outdated = check_outdated(period_nums = int(term_period), start_time = start_time)
+        print(f"is_outdated={is_outdated}")
         if is_outdated:
             global need_send_email
             need_send_email = need_send_email | 0b01
