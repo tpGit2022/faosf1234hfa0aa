@@ -9,13 +9,14 @@ import sys
 import time
 from email.header import Header
 from email.mime.text import MIMEText
+import datetime
 
 import requests
 # avoid ssl error
 requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 
 usr_input_code = ""
-need_send_email = False
+need_send_email = 0b00
 report_file_name = 'exec_result.html'
 
 
@@ -100,7 +101,7 @@ def get_lottery_info_from_office():
     if ret_list[0] != 0:
         print(ret_list)
         global need_send_email
-        need_send_email = True
+        need_send_email = need_send_email | 0b10
         tp_str = f"<br>Congratulate you are so lucky {ret_list}<br>"
         write_exec_result_to_file(tp_str)
     else:
@@ -111,9 +112,9 @@ def get_lottery_info_from_office():
 
 
 def write_exec_result_to_file(log_str):
-    file = open(report_file_name, mode="a+", encoding="UTF-8")
-    input_str = f"<br>{log_str}"
-    file.write(input_str)
+    with open(report_file_name, mode="a+", encoding="UTF-8") as file:
+        input_str = f"<br>{log_str}"
+        file.write(input_str)
 
 
 def write_message_header():
@@ -132,10 +133,10 @@ def write_message_header():
 
 
 def send_email_with_smtp():
-    if not need_send_email:
+    if need_send_email == 0b00:
         print("GitHub Action Python Script, Do not trigger Send Email Action")
         return
-    # py3_env = os.environ['PYTHON3HOME']
+
     print(os.environ)
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
     # print(f"1:{email_config_server_domain}")
@@ -151,13 +152,15 @@ def send_email_with_smtp():
     with open(report_file_name, 'r') as report_f:
         report_string = report_f.read()
     msg = MIMEText(report_string, 'plain', 'UTF-8')
-    msg['From'] = f"{email_config_server_user_name}"
+    msg['From'] = f"小秘书"
     msg['To'] = f"{email_config_server_recv_user_name}"
-    msg['Subject'] = Header("Python LT Script Check Result", 'UTF-8').encode()
-    # msg['From'] = formataddr(['smtp_python_user_name', f"{email_config_server_user_name}")
-    # msg['To'] = Header(email_config_server_recv_user_name, 'UTF-8')
-    # msg['Subject'] = Header('test python email module', 'UTF-8').encode()
-    #
+    if need_send_email == 0b11:
+        msg['Subject'] = Header("恭喜你中奖了，快临近截至日期了，快去重新购买一张吧", 'UTF-8').encode()
+    if need_send_email == 0b10:
+        msg['Subject'] = Header("恭喜你中奖了", 'UTF-8').encode()
+    if need_send_email == 0b01:
+        msg['Subject'] = Header("快临近截至日期了，快去重新购买一张吧", 'UTF-8').encode()
+
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
     smtp_obj.set_debuglevel(1)
     smtp_obj.login(user=email_config_server_user_name, password=email_config_server_user_pwd)
@@ -165,17 +168,45 @@ def send_email_with_smtp():
     smtp_obj.quit()
 
 
-if __name__ == '__main__':
+def check_outdated(period_nums, start_time):
+    """
+
+    :param period_nums: the period nums
+    :param start_time: start_time like 2020_02_10
+    :return: True is outdated False is valid
+    """
+    if period_nums <= 2:
+        return True
+    f_start_time = datetime.datetime.strptime(start_time, '%Y_%m_%d')
+    gap_days = ((period_nums - 1) / 3) * 7 - 3
+    ddl_time = f_start_time + datetime.timedelta(days=gap_days)
+    if f_start_time.now() >= ddl_time:
+        return True
+    return False
+
+
+def fun_exec():
+
     write_message_header()
     try:
         if len(sys.argv) >= 2:
             usr_input_code = sys.argv[1]
+            print(f"usr_input_code={usr_input_code}")
         if len(sys.argv) >= 5:
             time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
             start_time = sys.argv[4]
             term_period = sys.argv[3]
+            print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
+            is_outdated = check_outdated(period_nums = term_period, start_time = start_time)
+            if is_outdated:
+                global need_send_email
+                need_send_email = need_send_email | 0b01
         get_lottery_info_from_office()
     except KeyError:
         need_send_email = True
     # need_send_email = True
     send_email_with_smtp()
+
+
+if __name__ == '__main__':
+    fun_exec()
