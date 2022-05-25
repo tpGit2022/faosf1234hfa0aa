@@ -181,6 +181,7 @@ def check_outdated(period_nums, start_time):
     f_start_time = datetime.datetime.strptime(start_time, '%Y_%m_%d')
     gap_days = ((period_nums - 1) / 3) * 7 - 3
     ddl_time = f_start_time + datetime.timedelta(days=gap_days)
+    print(f"ddl_time={ddl_time} now_time={f_start_time.now()}")
     if f_start_time.now() >= ddl_time:
         return True
     return False
