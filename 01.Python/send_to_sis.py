@@ -184,12 +184,15 @@ def get_weather_info():
     print(r.text)
     weather_list = json.loads(r.text)
     tp_str = f"时间:{weather_list.get('time', 'None')}<br>" \
-             f"当前城市:{weather_list['cityInfo']['parent']}-{weather_list['cityInfo']['city']}<br>" \
-             f"日期:{weather_list['data']['forecast'][0]['date']}--{weather_list['data']['forecast'][0]['week']}<br>" \
-             f"天气:{weather_list['data']['forecast'][0]['type']}<br>" \
-             f"{weather_list['data']['forecast'][0]['high']}<br>{weather_list['data']['forecast'][0]['low']}<br>" \
-             f"日出时分:{weather_list['data']['forecast'][0]['sunrise']}<br>日落时分:{weather_list['data']['forecast'][0]['sunset']}<br>" \
-             f"风向:{weather_list['data']['forecast'][0]['fx']}<br>风级:{weather_list['data']['forecast'][0]['fl']}"
+             f"当前城市:{weather_list['cityInfo']['parent']}  {weather_list['cityInfo']['city']}<br>"
+    index = 0
+    while index < 3:
+        tp_str = tp_str + f"日期:{weather_list['data']['forecast'][index]['date']}--{weather_list['data']['forecast'][index]['week']}<br>" \
+             f"天气:{weather_list['data']['forecast'][index]['type']}<br>" \
+             f"{weather_list['data']['forecast'][index]['high']}<br>{weather_list['data']['forecast'][index]['low']}<br>" \
+             f"日出时分:{weather_list['data']['forecast'][index]['sunrise']}<br>日落时分:{weather_list['data']['forecast'][index]['sunset']}<br>" \
+             f"风向:{weather_list['data']['forecast'][index]['fx']}<br>风级:{weather_list['data']['forecast'][index]['fl']}<br><br>"
+        index = index + 1
     write_exec_result_to_file(tp_str)
 
 
