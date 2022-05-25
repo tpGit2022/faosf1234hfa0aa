@@ -193,7 +193,7 @@ def fun_exec():
         global usr_input_code
         usr_input_code = sys.argv[1]
         # print(f"usr_input_code={usr_input_code}")
-    if len(sys.argv) >= 5:
+    if len(sys.argv) >= 4:
         time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
         term_period = sys.argv[2]
         start_time = sys.argv[3]
