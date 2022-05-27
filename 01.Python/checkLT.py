@@ -191,9 +191,8 @@ def get_release_lt_code_to_check(input_code, lottery_type, start_term_nums=None,
             if ret_list[0] != 0:
                 print(f'中奖了!!!\r\nissue:{json_data["data"][index]["issue"]}\topenTime:{json_data["data"][index]["openTime"]}-->{ret_list}')
         else:
-            if end_term_nums < int(f'{json_data["data"][index]["issue"]}'):
-                break
-            else:
+            # print(f"index= {index} start={int(start_term_nums)} {json_data['data'][index]['issue']} end={end_term_nums}")
+            if (int(f'{json_data["data"][index]["issue"]}') > int(start_term_nums)) and (int(f'{json_data["data"][index]["issue"]}') < end_term_nums):
                 ret_list = check_lottery_code(input_code, release_code, lottery_type)
                 if ret_list[0] != 0:
                     print(f'中奖了!!!\r\nissue:{json_data["data"][index]["issue"]}\topenTime:{json_data["data"][index]["openTime"]}-->{ret_list}')
