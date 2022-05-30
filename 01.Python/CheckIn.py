@@ -57,10 +57,11 @@ def do_v2ray_check_in():
     }
     check_r = requests.post(check_in_url, headers=headers, cookies=r.cookies)
     check_in_json_data = json.loads(check_r.text)
+    print(check_in_json_data)
     if check_in_json_data['msg'] == "您似乎已经签到过了...":
         print(f"已签到{check_in_json_data}")
         return 1
-    elif check_in_json_data['msg'].startwith("获得了"):
+    elif check_in_json_data['msg'].startswith("获得了"):
         print(f"签到成功!!!\r\n{check_in_json_data}")
     else:
         print(f"签到失败!!!\r\n{check_in_json_data}")
