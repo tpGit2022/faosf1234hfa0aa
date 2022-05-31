@@ -30,7 +30,7 @@ def write_message_header():
     tp_str = f"<br><br><br><br>the python exec at {m_time_stamp}<br>"
     r = requests.get("https://ip.gs/json")
     json_str = json.loads(r.text)
-    print(json_str)
+    # print(json_str)
 
     tp_str = tp_str + f"IP信息如下:<br><br>IP:{json_str['ip']}<br>国家:{json_str['country']}<br>" \
                       f"区域:{json_str.get('region_name', None)}" \
@@ -45,7 +45,7 @@ def send_email_with_smtp():
     #   print("GitHub Action Python Script, Do not trigger Send Email Action")
     #  return
     # py3_env = os.environ['PYTHON3HOME']
-    print(os.environ)
+    # print(os.environ)
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
     # print(f"1:{email_config_server_domain}")
     email_config_server_port = os.environ['EMAIL_SMTP_PORT']
