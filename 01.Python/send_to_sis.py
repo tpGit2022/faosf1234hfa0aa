@@ -108,4 +108,4 @@ def get_weather_info():
 if __name__ == '__main__':
     get_weather_info()
     write_message_header()
-    #send_email_with_smtp()
+    send_email_with_smtp()
