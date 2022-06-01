@@ -1,8 +1,6 @@
 #! /bin/sh
 currentTimeStamp=`date "+%Y_%m_%d_%H_%M_%S"`
 #rm -rf email_content.txt
-echo $currentTimeStamp:Run Github Action, Runtime Env IP: >> email_content.txt
-curl ip.sb >> email_content.txt
-echo The File List After Checkout And Compile
-ls -RF >> email_content.txt
-env >> email_content.txt
+echo $currentTimeStamp
+echo $(TZ=UTC-8 date +%Y_%m_%d_%H_%M_%S)
+echo $(TZ=UTC-8 date +%Y_%m_%d_%H_%M_%S) >> exec_result.html

@@ -9,6 +9,7 @@ import sys
 import time
 from email.header import Header
 from email.mime.text import MIMEText
+from email.utils import formataddr
 from datetime import datetime, timedelta
 
 import requests
@@ -145,7 +146,7 @@ def write_message_tailer():
 
 def send_email_with_smtp(is_out_dated):
     print(f"send_email_with_smtp is_out_dated={is_out_dated} list_prize_level={list_prize_level}")
-    if not is_out_dated or list_prize_level[0] == 0:
+    if is_out_dated or list_prize_level[0] == 0:
         print("GitHub Action Python Script, Do not trigger Send Email Action")
         return
 
@@ -164,7 +165,7 @@ def send_email_with_smtp(is_out_dated):
     with open(report_file_name, 'r') as report_f:
         report_string = report_f.read()
     msg = MIMEText(report_string, 'plain', 'UTF-8')
-    msg['From'] = f"小秘书"
+    msg['From'] = formataddr((Header("小秘书", "UTF-8").encode(), "this_addr_is_random_write@qq.com"))
     msg['To'] = f"{email_config_server_recv_user_name}"
     email_subject = ""
     if list_prize_level[0] == 1 or list_prize_level[0] == 2:
@@ -203,9 +204,6 @@ def check_outdated(period_nums, start_time):
 
 
 def fun_exec():
-    # clean work, delete exec_result.html
-    if os.path.exists("exec_result.html"):
-        os.remove("exec_result.html")
     write_message_header()
     global usr_input_code
     usr_input_code = os.environ['LT_INPUT_CODE']
@@ -220,6 +218,9 @@ def fun_exec():
     write_message_tailer()
     # need_send_email = True
     send_email_with_smtp(is_out_dated=is_outdated)
+    # clean work, delete exec_result.html
+    if os.path.exists("exec_result.html"):
+        os.remove("exec_result.html")
 
 
 if __name__ == '__main__':
