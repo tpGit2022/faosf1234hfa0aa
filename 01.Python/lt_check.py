@@ -9,14 +9,15 @@ import sys
 import time
 from email.header import Header
 from email.mime.text import MIMEText
-import datetime
+from datetime import datetime, timedelta
 
 import requests
+
 # avoid ssl error
 requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 
 usr_input_code = ""
-need_send_email = 0b00
+list_prize_level = []
 report_file_name = 'exec_result.html'
 
 
@@ -75,7 +76,6 @@ def lottery_code_check(input_code, release_code):
 
 
 def get_lottery_info_from_office():
-    # print(f"get_lottery_info_from_office")
     url = "https://www.gdlottery.cn/gdata/idx/tcnotice"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -98,11 +98,14 @@ def get_lottery_info_from_office():
     origin_code = origin_code.replace("+", " ")
     origin_code = origin_code.replace("@", "+")
     ret_list = lottery_code_check(usr_input_code, origin_code)
-    print(f"ret_list={ret_list}")
+    global list_prize_level
+    list_prize_level = ret_list
     if ret_list[0] != 0:
-        global need_send_email
-        need_send_email = need_send_email | 0b10
-        tp_str = f"<br>Congratulate you are so lucky {ret_list}<br>"
+        regex = re.compile("\\s")
+        tp_input_code = regex.sub('', usr_input_code)
+        tp_release_code = regex.sub('', origin_code)
+        tp_str = f"<br>Congratulate you are so lucky {ret_list}<br><br>input_code-->release_code:" \
+                 f"<br><br>{tp_input_code}<br>{tp_release_code} "
         write_exec_result_to_file(tp_str)
     else:
         tp_str = f"<br>nothing hit...<br>"
@@ -119,22 +122,30 @@ def write_exec_result_to_file(log_str):
 
 def write_message_header():
     m_time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-    tp_str = f"the python exec at {m_time_stamp}"
-    r = requests.get("https://ip.gs/json")
-    json_str = json.loads(r.text)
-    print(json_str)
-
-    tp_str = tp_str + f"<br>IP:{json_str['ip']}<br>Country:{json_str['country']}<br>" \
-                      f"Region:{json_str.get('region_name', None)}" \
-                      f"<br>City:{json_str.get('city', None)}<br>Latitude:{json_str.get('latitude', None)}\t" \
-                      f"longitude:{json_str.get('longitude', None)}" \
-                      f"<br>TimeZone:{json_str['time_zone']}<br>asnOrg:{json_str.get('asn_org', None)}"
+    tp_str = f"<br><br>==============================================================================" \
+             f"<br>the python exec at {m_time_stamp}" \
+             f"<br>==============================================================================<br>"
     write_exec_result_to_file(tp_str)
 
 
-def send_email_with_smtp():
-    print(f"send_email_with_smtp need_send_email={need_send_email}")
-    if need_send_email == 0b00:
+def write_message_tailer():
+    r = requests.get("https://ip.gs/json")
+    json_str = json.loads(r.text)
+    # print(json_str)
+    print(f"IP:{json_str['ip']} City:{json_str.get('city', None)} TimeZone:{json_str['time_zone']}")
+    tp_str = f"<br><br><br>==============================================================================" \
+             f"<br>IP:{json_str['ip']}<br>Country:{json_str['country']}<br>" \
+             f"Region:{json_str.get('region_name', None)}" \
+             f"<br>City:{json_str.get('city', None)}<br>Latitude:{json_str.get('latitude', None)}\t" \
+             f"longitude:{json_str.get('longitude', None)}" \
+             f"<br>TimeZone:{json_str['time_zone']}<br>asnOrg:{json_str.get('asn_org', None)}" \
+             f"<br>==============================================================================<br>"
+    write_exec_result_to_file(tp_str)
+
+
+def send_email_with_smtp(is_out_dated):
+    print(f"send_email_with_smtp is_out_dated={is_out_dated} list_prize_level={list_prize_level}")
+    if not is_out_dated or list_prize_level[0] == 0:
         print("GitHub Action Python Script, Do not trigger Send Email Action")
         return
 
@@ -155,12 +166,14 @@ def send_email_with_smtp():
     msg = MIMEText(report_string, 'plain', 'UTF-8')
     msg['From'] = f"小秘书"
     msg['To'] = f"{email_config_server_recv_user_name}"
-    if need_send_email == 0b11:
-        msg['Subject'] = Header("恭喜你中奖了!!!，快临近截至日期了!!!", 'UTF-8').encode()
-    if need_send_email == 0b10:
-        msg['Subject'] = Header("恭喜你中奖了", 'UTF-8').encode()
-    if need_send_email == 0b01:
-        msg['Subject'] = Header("快临近截至日期了!!!", 'UTF-8').encode()
+    email_subject = ""
+    if list_prize_level[0] == 1 or list_prize_level[0] == 2:
+        email_subject = f"您中了超巨奖!!!!  {list_prize_level[0]}等奖"
+    elif list_prize_level[0] != 0:
+        email_subject = f"您中了{list_prize_level[1]}"
+    if is_out_dated:
+        email_subject = f"{email_subject} 临近截至日期了!!!"
+    msg['Subject'] = Header(email_subject, 'UTF-8').encode()
 
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
     # smtp_obj.set_debuglevel(1)
@@ -178,34 +191,35 @@ def check_outdated(period_nums, start_time):
     """
     if period_nums <= 2:
         return True
-    f_start_time = datetime.datetime.strptime(start_time, '%Y_%m_%d')
+    f_start_time = datetime.strptime(start_time, '%Y_%m_%d')
     gap_days = ((period_nums - 1) / 3) * 7 - 3
-    ddl_time = f_start_time + datetime.timedelta(days=gap_days)
-    print(f"ddl_time={ddl_time} now_time={f_start_time.now()}")
+    ddl_time = f_start_time + timedelta(days=gap_days)
+    out_date_log = f"ddl_time={ddl_time} now_time={f_start_time.now()}"
+    print(out_date_log)
+    write_exec_result_to_file(out_date_log)
     if f_start_time.now() >= ddl_time:
         return True
     return False
 
 
 def fun_exec():
+    # clean work, delete exec_result.html
+    if os.path.exists("exec_result.html"):
+        os.remove("exec_result.html")
     write_message_header()
-    if len(sys.argv) >= 2:
-        global usr_input_code
-        usr_input_code = sys.argv[1]
-        # print(f"usr_input_code={usr_input_code}")
-    if len(sys.argv) >= 4:
-        time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-        term_period = sys.argv[2]
-        start_time = sys.argv[3]
+    global usr_input_code
+    usr_input_code = os.environ['LT_INPUT_CODE']
+    is_outdated = False
+    if len(sys.argv) >= 3:
+        # time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+        term_period = sys.argv[1]
+        start_time = sys.argv[2]
         # print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
-        is_outdated = check_outdated(period_nums = int(term_period), start_time = start_time)
-        print(f"is_outdated={is_outdated}")
-        if is_outdated:
-            global need_send_email
-            need_send_email = need_send_email | 0b01
+        is_outdated = check_outdated(period_nums=int(term_period), start_time=start_time)
     get_lottery_info_from_office()
+    write_message_tailer()
     # need_send_email = True
-    send_email_with_smtp()
+    send_email_with_smtp(is_out_dated=is_outdated)
 
 
 if __name__ == '__main__':
