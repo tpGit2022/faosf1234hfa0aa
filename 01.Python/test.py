@@ -5,7 +5,7 @@ import os
 
 def checkNum():
     print(os.environ['ENV_TEST'])
-    # print(os.environ['EMAIL_TEST_TEST'])
+    print(os.environ['EMAIL_TEST_TEST'])
     print(os.environ['pythonLocation'])
     print()
     print(os.environ)
