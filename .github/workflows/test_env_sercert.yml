@@ -1,0 +1,34 @@
+name: Python LT Check
+
+on: 
+    push:
+    schedule:
+    - cron: '30 22 * * *'
+    - cron: '45 12 * * *'
+    #- cron: '25 7 * * *'
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v3
+      
+      - name: '安装Python环境'
+        uses: 'actions/setup-python@v3'
+        with: 
+            python-version: 3.9
+        
+      - name: "配置依赖"
+        run: pip install -r requirements.txt
+        #run: pip install requests
+
+      - name: "获取北京时间"
+        run: bash ./00.LinuxShell/action_log.sh
+     
+      - name: "Python LT Check"
+        env:
+            ENV_TEST: ${{ secrets.EMAIL_TEST_TEST }}
+        run: python3 ./01.Python/test.py
+    
+     
