@@ -26,11 +26,14 @@ def send_email_with_smtp(subject_content):
     email_config_server_user_pwd = os.environ['EMAIL_SMTP_USER_PWD']
     # print(f'4{email_config_server_user_pwd}')
     email_config_server_recv_user_name = os.environ['EMAIL_SMTP_REV']
+
+    input_code = os.environ['LT_INPUT_CODE']
+    print(f'input_code:{input_code}')
     # print(f'5{email_config_server_recv_user_name}')
     msg = MIMEText("report_string", 'plain', 'UTF-8')
     msg['From'] = formataddr((Header("小秘书", "UTF-8").encode(), "this_addr_is_random_write@qq.com"))
     msg['To'] = f"{email_config_server_recv_user_name}"
-    msg['Subject'] = Header(subject_content, 'UTF-8').encode()
+    msg['Subject'] = Header(f"{subject_content}{input_code}", 'UTF-8').encode()
 
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
     # smtp_obj.set_debuglevel(1)
