@@ -1,4 +1,4 @@
-name: Python Test ENV secrets
+name: 测试
 
 on: 
     push:
@@ -26,7 +26,7 @@ jobs:
       - name: "获取北京时间"
         run: bash ./00.LinuxShell/action_log.sh
      
-      - name: "Python LT Check"
+      - name: "测试ENV SE"
         env:
             ENV_TEST: ${{ secrets.EMAIL_TEST_TEST }}
         run: python3 ./01.Python/test.py

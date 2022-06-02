@@ -12,4 +12,4 @@ def checkNum():
 
 
 if __name__ == "__main__":
-    checkNum(1, 1)
+    checkNum()
