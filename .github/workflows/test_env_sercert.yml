@@ -10,6 +10,7 @@ on:
 jobs:
   bot:
     runs-on: ubuntu-latest
+    environment: EMAIL_CONFIG
     steps:
       - name: 'Checkout codes'
         uses: actions/checkout@v3
