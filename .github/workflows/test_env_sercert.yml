@@ -1,6 +1,5 @@
 name: 测试
 on:
-    push:
     branch_protection_rule:
         create:
 jobs:
