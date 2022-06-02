@@ -1,4 +1,4 @@
-name: Python LT Check
+name: Python Test ENV secrets
 
 on: 
     push:
