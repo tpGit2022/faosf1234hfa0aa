@@ -1,12 +1,5 @@
 name: 测试
 
-on: 
-    push:
-    schedule:
-    - cron: '30 22 * * *'
-    - cron: '45 12 * * *'
-    #- cron: '25 7 * * *'
-
 jobs:
   bot:
     runs-on: ubuntu-latest
