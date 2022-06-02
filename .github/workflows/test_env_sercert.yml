@@ -1,5 +1,7 @@
 name: 测试
-
+on:
+    branch_protection_rule:
+        create:
 jobs:
   bot:
     runs-on: ubuntu-latest
