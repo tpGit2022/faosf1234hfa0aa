@@ -30,8 +30,8 @@ jobs:
       - name: "测试ENV SE"
         env:
             ENV_TEST: ${{ secrets.EMAIL_TEST_TEST }}
-            EMAIL_SMTP_DOMAIN: EMAIL_SMTP_DOMAIN
-            EMAIL_SMTP_PORT: 465
+            EMAIL_SMTP_DOMAIN: ${{ secrets.EMAIL_SMTP_DOMAIN }}
+            EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
             EMAIL_SMTP_REV: ${{ secrets.EMAIL_SMTP_REV }}
             EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
             EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}
