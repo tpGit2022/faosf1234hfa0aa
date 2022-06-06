@@ -1,6 +1,7 @@
 name: 签到
 
 on: 
+    push:
     schedule:
     - cron: '30 22 * * *'
     - cron: '45 0 * * *'
@@ -8,7 +9,7 @@ on:
 
 jobs:
   bot:
-    environment: NETEAST
+    environment: sign_in_params
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout codes'
