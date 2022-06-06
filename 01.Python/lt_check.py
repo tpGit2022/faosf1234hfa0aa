@@ -94,7 +94,7 @@ def get_lottery_info_from_office():
     # print(r.text)
     lt_list = json.loads(r.text)
     origin_code = lt_list[0]["kjhm"]
-    print(f"office_release_code={origin_code}")
+    # print(f"office_release_code={origin_code}")
     origin_code = origin_code.replace(" ", "@")
     origin_code = origin_code.replace("+", " ")
     origin_code = origin_code.replace("@", "+")
@@ -113,6 +113,13 @@ def get_lottery_info_from_office():
         write_exec_result_to_file(tp_str)
     success_msg = f"<br>python exec as expect"
     write_exec_result_to_file(success_msg)
+    # print office release code
+    lt_index = 0
+    while lt_index < len(lt_list):
+        office_release_origin_code = lt_list[lt_index]["kjhm"]
+        print(f"office release code:{office_release_origin_code}")
+        lt_index = lt_index + 1
+
 
 
 def write_exec_result_to_file(log_str):
