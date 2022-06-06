@@ -8,6 +8,7 @@ on:
 
 jobs:
   bot:
+    environment: NETEAST
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout codes'
@@ -24,6 +25,7 @@ jobs:
         env:
             V2RAY_SERVER_USER_NAME: ${{ secrets.V2RAY_SERVER_USER_NAME }}
             V2RAY_SERVER_USER_PWD: ${{ secrets.V2RAY_SERVER_USER_PWD }}
+            NETEASE_CLOUD_MUSIC_PC_SIGN_COOKIES: ${{ secrets.NETEASE_CLOUD_MUSIC_PC_SIGN_COOKIES }}
+            NETEASE_CLOUD_MUSIC_PC_SIGN_PARAMS: ${{ secrets.NETEASE_CLOUD_MUSIC_PC_SIGN_PARAMS }}
         run: python3 ./01.Python/CheckIn.py
-    
      
