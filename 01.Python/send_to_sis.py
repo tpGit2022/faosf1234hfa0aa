@@ -57,7 +57,7 @@ def send_email_with_smtp():
     email_config_server_recv_user_name = os.environ['EMAIL_SMTP_REV']
     # print(f'5{email_config_server_recv_user_name}')
 
-    with open(report_file_name, 'r') as report_f:
+    with open(report_file_name, 'r', encoding='UTF-8') as report_f:
         report_string = report_f.read()
     msg = MIMEText(report_string, 'plain', 'UTF-8')
     msg['From'] = f"杨总裁的小秘书"
@@ -90,7 +90,7 @@ def get_weather_info():
         "Referer": "https://www.gdlottery.cn/?v=1652849733245"
     }
     r = requests.get(url, headers=headers)
-    print(r.text)
+    # print(r.text)
     weather_list = json.loads(r.text)
     tp_str = f"时间:{weather_list.get('time', 'None')}<br>" \
              f"当前城市:{weather_list['cityInfo']['parent']}  {weather_list['cityInfo']['city']}<br>"
@@ -103,6 +103,7 @@ def get_weather_info():
              f"风向:{weather_list['data']['forecast'][index]['fx']}<br>风级:{weather_list['data']['forecast'][index]['fl']}<br><br>"
         index = index + 1
     write_exec_result_to_file(tp_str)
+    print(tp_str)
 
 
 if __name__ == '__main__':
