@@ -1,7 +1,6 @@
 name: 签到
 
 on: 
-    push:
     schedule:
     - cron: '30 22 * * *'
     - cron: '45 0 * * *'
