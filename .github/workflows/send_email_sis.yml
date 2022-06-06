@@ -1,7 +1,6 @@
 name: Python Send EMail To Sis
 
 on: 
-    push:
     schedule:
     - cron: '45 22 * * *'
     #- cron: '25 7 * * *'

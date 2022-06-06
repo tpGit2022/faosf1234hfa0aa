@@ -43,8 +43,8 @@ jobs:
       #  run: python3 ./01.Python/test.py
       - name: "Python LT Check"
         env:
-            EMAIL_SMTP_DOMAIN: smtp.163.com
-            EMAIL_SMTP_PORT: 465
+            EMAIL_SMTP_DOMAIN: ${{ secrets.EMAIL_SMTP_DOMAIN }}
+            EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
             EMAIL_SMTP_REV: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
             EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
             EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}

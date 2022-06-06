@@ -45,18 +45,18 @@ def send_email_with_smtp():
     #   print("GitHub Action Python Script, Do not trigger Send Email Action")
     #  return
     # py3_env = os.environ['PYTHON3HOME']
-    print(os.environ)
-    print()
+    # print(os.environ)
+    # print()
     email_config_server_domain = os.environ['EMAIL_SMTP_DOMAIN']
-    print(f"1:{email_config_server_domain}")
+    # print(f"1:{email_config_server_domain}")
     email_config_server_port = os.environ['EMAIL_SMTP_PORT']
-    print(f'2{email_config_server_port}')
+    # print(f'2{email_config_server_port}')
     email_config_server_user_name = os.environ['EMAIL_SMTP_USER_NAME']
-    print(f'3{email_config_server_user_name}')
+    # print(f'3{email_config_server_user_name}')
     email_config_server_user_pwd = os.environ['EMAIL_SMTP_USER_PWD']
-    print(f'4{email_config_server_user_pwd}')
+    # print(f'4{email_config_server_user_pwd}')
     email_config_server_recv_user_name = os.environ['EMAIL_SMTP_REV']
-    print(f'5{email_config_server_recv_user_name}')
+    # print(f'5{email_config_server_recv_user_name}')
 
     with open(report_file_name, 'r', encoding='UTF-8') as report_f:
         report_string = report_f.read()
