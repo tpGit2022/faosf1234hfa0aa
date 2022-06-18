@@ -20,6 +20,7 @@ requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
 usr_input_code = ""
 list_prize_level = []
 report_file_name = 'exec_result.html'
+end_period_num = 99999
 
 
 def lottery_code_check(input_code, release_code):
@@ -76,7 +77,7 @@ def lottery_code_check(input_code, release_code):
     return [0, 0]
 
 
-def get_lottery_info_from_office():
+def get_lottery_info_from_office(end_period_num):
     url = "https://www.gdlottery.cn/gdata/idx/tcnotice"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -91,9 +92,11 @@ def get_lottery_info_from_office():
         "Referer": "https://www.gdlottery.cn/?v=1652849733245"
     }
     r = requests.get(url, headers=headers)
-    # print(r.text)
+    print(r.text)
     lt_list = json.loads(r.text)
     origin_code = lt_list[0]["kjhm"]
+    current_period_num = int(lt_list[0]['drawid'])
+
     # print(f"office_release_code={origin_code}")
     origin_code = origin_code.replace(" ", "@")
     origin_code = origin_code.replace("+", " ")
@@ -119,6 +122,10 @@ def get_lottery_info_from_office():
         office_release_origin_code = lt_list[lt_index]["kjhm"]
         print(f"office release code:{office_release_origin_code}")
         lt_index = lt_index + 1
+    if current_period_num >= (end_period_num - 2):
+        return True
+    else:
+        return False
 
 
 def write_exec_result_to_file(log_str):
@@ -150,7 +157,7 @@ def write_message_tailer():
     write_exec_result_to_file(tp_str)
 
 
-def send_email_with_smtp(is_out_dated, end_period_nums):
+def send_email_with_smtp(is_out_dated):
     print(f"send_email_with_smtp is_out_dated={is_out_dated} list_prize_level={list_prize_level}")
     if not is_out_dated and list_prize_level[0] == 0:
         print("GitHub Action Python Script, Do not trigger Send Email Action")
@@ -179,7 +186,7 @@ def send_email_with_smtp(is_out_dated, end_period_nums):
     elif list_prize_level[0] != 0:
         email_subject = f"您中了{list_prize_level[1]}"
     if is_out_dated:
-        email_subject = f"最后期号{end_period_nums},临近截至日期了!!!"
+        email_subject = f"临近截至日期了!!!"
     msg['Subject'] = Header(email_subject, 'UTF-8').encode()
 
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
@@ -220,11 +227,11 @@ def fun_exec():
         start_time = sys.argv[2]
         start_period_nums = sys.argv[3]
         # print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
-        is_outdated = check_outdated(period_nums=int(term_period), start_time=start_time)
-    get_lottery_info_from_office()
+        # is_outdated = check_outdated(period_nums=int(term_period), start_time=start_time)
+    is_outdated = get_lottery_info_from_office(end_period_num=int(start_period_nums) + int(term_period) - 1)
     write_message_tailer()
     # need_send_email = True
-    send_email_with_smtp(is_out_dated=is_outdated, end_period_nums = int(start_period_nums) + int(term_period) - 1)
+    send_email_with_smtp(is_out_dated=is_outdated)
     # clean work, delete exec_result.html
     if os.path.exists("exec_result.html"):
         os.remove("exec_result.html")
