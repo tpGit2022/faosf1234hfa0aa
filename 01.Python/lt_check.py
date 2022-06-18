@@ -153,7 +153,7 @@ def write_message_tailer():
 
 def send_email_with_smtp(is_out_dated):
     print(f"send_email_with_smtp is_out_dated={is_out_dated} list_prize_level={list_prize_level}")
-    if not is_out_dated or list_prize_level[0] == 0:
+    if not (is_out_dated == True and list_prize_level[0] != 0):
         print("GitHub Action Python Script, Do not trigger Send Email Action")
         return
 
