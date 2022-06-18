@@ -121,7 +121,6 @@ def get_lottery_info_from_office():
         lt_index = lt_index + 1
 
 
-
 def write_exec_result_to_file(log_str):
     with open(report_file_name, mode="a+", encoding="UTF-8") as file:
         input_str = f"<br>{log_str}"
@@ -153,7 +152,7 @@ def write_message_tailer():
 
 def send_email_with_smtp(is_out_dated):
     print(f"send_email_with_smtp is_out_dated={is_out_dated} list_prize_level={list_prize_level}")
-    if not (is_out_dated == True and list_prize_level[0] != 0):
+    if not is_out_dated and list_prize_level[0] == 0:
         print("GitHub Action Python Script, Do not trigger Send Email Action")
         return
 
