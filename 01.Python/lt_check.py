@@ -114,7 +114,8 @@ def get_lottery_info_from_office(end_period_num):
     else:
         tp_str = f"<br>nothing hit...<br>"
         write_exec_result_to_file(tp_str)
-    success_msg = f"<br>python exec as expect"
+    success_msg = f"the current period num:{current_period_num}<br>the end   period num:{end_period_num}<br><br" \
+                  f">python exec as expect "
     write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
