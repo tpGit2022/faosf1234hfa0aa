@@ -224,7 +224,7 @@ def fun_exec():
     get_lottery_info_from_office()
     write_message_tailer()
     # need_send_email = True
-    send_email_with_smtp(is_out_dated=is_outdated, end_period_nums = start_period_nums + term_period - 1)
+    send_email_with_smtp(is_out_dated=is_outdated, end_period_nums = int(start_period_nums + term_period - 1))
     # clean work, delete exec_result.html
     if os.path.exists("exec_result.html"):
         os.remove("exec_result.html")
