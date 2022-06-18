@@ -96,6 +96,7 @@ def get_lottery_info_from_office(end_period_num):
     lt_list = json.loads(r.text)
     origin_code = lt_list[0]["kjhm"]
     current_period_num = int(lt_list[0]['drawid'])
+    current_date = lt_list[0]['saleDate']
 
     # print(f"office_release_code={origin_code}")
     origin_code = origin_code.replace(" ", "@")
@@ -114,12 +115,12 @@ def get_lottery_info_from_office(end_period_num):
     else:
         tp_str = f"<br>nothing hit...<br>"
         write_exec_result_to_file(tp_str)
-    success_msg = f"the current period num:{current_period_num}<br>the end   period num:{end_period_num}<br><br" \
+    success_msg = f"the cur period num:{current_period_num} date:{current_date}<br>the end period num:{end_period_num}<br><br" \
                   f">python exec as expect "
     write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
-    while lt_index < len(lt_list):
+    while lt_index < len(lt_list) and lt_index < 5:
         office_release_origin_code = lt_list[lt_index]["kjhm"]
         print(f"office release code:{office_release_origin_code}")
         lt_index = lt_index + 1
