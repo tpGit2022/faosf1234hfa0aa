@@ -150,7 +150,7 @@ def write_message_tailer():
     write_exec_result_to_file(tp_str)
 
 
-def send_email_with_smtp(is_out_dated):
+def send_email_with_smtp(is_out_dated, end_period_nums):
     print(f"send_email_with_smtp is_out_dated={is_out_dated} list_prize_level={list_prize_level}")
     if not is_out_dated and list_prize_level[0] == 0:
         print("GitHub Action Python Script, Do not trigger Send Email Action")
@@ -179,7 +179,7 @@ def send_email_with_smtp(is_out_dated):
     elif list_prize_level[0] != 0:
         email_subject = f"您中了{list_prize_level[1]}"
     if is_out_dated:
-        email_subject = f"{email_subject} 临近截至日期了!!!"
+        email_subject = f"最后期号{end_period_nums},临近截至日期了!!!"
     msg['Subject'] = Header(email_subject, 'UTF-8').encode()
 
     smtp_obj = smtplib.SMTP_SSL(email_config_server_domain, int(email_config_server_port))
@@ -218,12 +218,13 @@ def fun_exec():
         # time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
         term_period = sys.argv[1]
         start_time = sys.argv[2]
+        start_period_nums = sys.argv[3]
         # print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
         is_outdated = check_outdated(period_nums=int(term_period), start_time=start_time)
     get_lottery_info_from_office()
     write_message_tailer()
     # need_send_email = True
-    send_email_with_smtp(is_out_dated=is_outdated)
+    send_email_with_smtp(is_out_dated=is_outdated, end_period_nums = start_period_nums + term_period - 1)
     # clean work, delete exec_result.html
     if os.path.exists("exec_result.html"):
         os.remove("exec_result.html")
