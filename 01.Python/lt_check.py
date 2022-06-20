@@ -140,7 +140,7 @@ def write_message_header():
     m_time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
     tp_str = f"<br><br>===================================" \
              f"<br>the python exec at {m_time_stamp}" \
-             f"<br>=======================================<br>"
+             f"<br>===================================<br>"
     write_exec_result_to_file(tp_str)
 
 
@@ -149,13 +149,13 @@ def write_message_tailer():
     json_str = json.loads(r.text)
     # print(json_str)
     print(f"IP:{json_str['ip']} City:{json_str.get('city', None)} TimeZone:{json_str['time_zone']}")
-    tp_str = f"<br><br><br>================================" \
+    tp_str = f"<br><br><br>===================================" \
              f"<br>IP:{json_str['ip']}<br>Country:{json_str['country']}<br>" \
              f"Region:{json_str.get('region_name', None)}" \
              f"<br>City:{json_str.get('city', None)}<br>Latitude:{json_str.get('latitude', None)}\t" \
              f"longitude:{json_str.get('longitude', None)}" \
              f"<br>TimeZone:{json_str['time_zone']}<br>asnOrg:{json_str.get('asn_org', None)}" \
-             f"<br>========================================<br>"
+             f"<br>===================================<br>"
     write_exec_result_to_file(tp_str)
 
 
