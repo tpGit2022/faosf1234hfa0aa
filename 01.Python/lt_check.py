@@ -92,7 +92,7 @@ def get_lottery_info_from_office(end_period_num):
         "Referer": "https://www.gdlottery.cn/?v=1652849733245"
     }
     r = requests.get(url, headers=headers)
-    print(r.text)
+    # print(r.text)
     lt_list = json.loads(r.text)
     origin_code = lt_list[0]["kjhm"]
     current_period_num = int(lt_list[0]['drawid'])
@@ -116,14 +116,16 @@ def get_lottery_info_from_office(end_period_num):
         tp_str = f"<br>nothing hit...<br>"
         write_exec_result_to_file(tp_str)
     success_msg = f"the cur period num:{current_period_num} date:{current_date}<br>the end period num:{end_period_num}" \
-                  f"<br>usr_input_code:{usr_input_code}<br>office_rea_code:{origin_code}<br>python exec as expect"
+                  f"<br>usr_input_code:{usr_input_code}<br>office_rea_code:{origin_code}<br>"
     write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
-    while lt_index < len(lt_list) and lt_index < 5:
+    while lt_index < len(lt_list) and lt_index < 4:
         office_release_origin_code = lt_list[lt_index]["kjhm"]
         print(f"office release code:{office_release_origin_code}")
+        success_msg = success_msg + f"office release code:{office_release_origin_code}<br>"
         lt_index = lt_index + 1
+    write_exec_result_to_file(success_msg)
     if current_period_num >= (end_period_num - 2):
         return True
     else:
