@@ -97,5 +97,5 @@ def netease_cloud_pc_sign_in():
 
 
 if __name__ == "__main__":
-    do_v2ray_check_in()
+    # do_v2ray_check_in()
     netease_cloud_pc_sign_in()
