@@ -233,7 +233,9 @@ def fun_exec():
         start_period_nums = sys.argv[3]
         # print(f"time_stamp={time_stamp} start_time={start_time} term_period={term_period}")
         # is_outdated = check_outdated(period_nums=int(term_period), start_time=start_time)
-    is_outdated = get_lottery_info_from_office(end_period_num=int(start_period_nums) + int(term_period) - 1)
+    end_period_num = int(start_period_nums) + int(term_period) - 1
+    print(f"实际截至有效期号:{end_period_num}")
+    is_outdated = get_lottery_info_from_office(end_period_num)
     write_message_tailer()
     # need_send_email = True
     send_email_with_smtp(is_out_dated=is_outdated)
