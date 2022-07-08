@@ -1,6 +1,7 @@
 name: Python LT Check
 
 on: 
+    push:
     schedule:
     - cron: '30 22 * * *'
     - cron: '45 12 * * *'
