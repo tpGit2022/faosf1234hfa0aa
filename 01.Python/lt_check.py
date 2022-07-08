@@ -122,7 +122,7 @@ def get_lottery_info_from_office(end_period_num):
     lt_index = 0
     while lt_index < len(lt_list) and lt_index < 4:
         office_release_origin_code = lt_list[lt_index]["kjhm"]
-        print(f"office release code:{office_release_origin_code}")
+        # print(f"office release code:{office_release_origin_code}")
         success_msg = success_msg + f"office release code:{office_release_origin_code}<br>"
         print(f"office release code:发售日期:{lt_list[lt_index]['saleDate']} 期号:{lt_list[lt_index]['drawid']} 发布:{lt_list[lt_index]['kjhm']}")
         lt_index = lt_index + 1
