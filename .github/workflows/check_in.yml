@@ -1,0 +1,34 @@
+name: 签到
+
+on: 
+    watch:
+        types: started
+    schedule:
+    - cron: '30 22 * * *'
+    - cron: '45 0 * * *'
+    #- cron: '25 7 * * *'
+
+jobs:
+  bot:
+    environment: sign_in_params
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v3
+      
+      - name: '安装Python环境'
+        uses: 'actions/setup-python@v3'
+        with: 
+            python-version: 3.9
+            cache: 'pip' # caching pip dependencies
+        
+      - name: "配置依赖"
+        run: pip install -r requirements.txt
+      - name: "签到"
+        env:
+            V2RAY_SERVER_USER_NAME: ${{ secrets.V2RAY_SERVER_USER_NAME }}
+            V2RAY_SERVER_USER_PWD: ${{ secrets.V2RAY_SERVER_USER_PWD }}
+            NETEASE_CLOUD_MUSIC_PC_SIGN_COOKIES: ${{ secrets.NETEASE_CLOUD_MUSIC_PC_SIGN_COOKIES }}
+            NETEASE_CLOUD_MUSIC_PC_SIGN_PARAMS: ${{ secrets.NETEASE_CLOUD_MUSIC_PC_SIGN_PARAMS }}
+        run: python3 ./01.Python/CheckIn.py
+     

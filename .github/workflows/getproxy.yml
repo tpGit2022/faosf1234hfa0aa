@@ -1,0 +1,37 @@
+name: 获取v2ray服务器列表
+
+on: 
+    watch:
+        types: started
+    schedule:
+    - cron: '30 21 * * *'
+    #- cron: '25 7 * * *'
+
+jobs:
+  bot:
+    environment: EMAIL_CONFIG
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v3
+      
+      - name: '安装Python环境'
+        uses: 'actions/setup-python@v3'
+        with: 
+            python-version: 3.9
+            cache: 'pip' # caching pip dependencies
+        
+      - name: "配置依赖"
+        run: pip install -r requirements.txt
+      - name: "获取代理服务器列表"
+        env:
+            EMAIL_SMTP_DOMAIN: ${{ secrets.EMAIL_SMTP_DOMAIN }}
+            EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
+            EMAIL_SMTP_REV: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
+            EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
+            EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}
+            EMAIL_BLACK_HOLE_ADDR: ${{ secrets.EMAIL_RECV_BLACK_HOLE_ADDR}}
+            V2RAY_SERVER_USER_NAME: ${{ secrets.V2RAY_SERVER_USER_NAME }}
+            V2RAY_SERVER_USER_PWD: ${{ secrets.V2RAY_SERVER_USER_PWD }}
+        run: python3 ./01.Python/get_proxy.py
+     

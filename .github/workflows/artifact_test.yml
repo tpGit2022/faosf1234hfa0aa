@@ -1,0 +1,47 @@
+name: Wait Test
+
+on: 
+    issue_comment:
+        types: deleted
+
+jobs:
+  bot:
+    environment: EMAIL_CONFIG
+    if: ${{ github.event.workflow_run.status != 'in_progress' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v3
+        
+        with:
+            persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+            fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+        
+          
+      - name: "获取北京时间"
+        run: bash ./00.LinuxShell/action_log.sh
+          
+      - name: 打印变量值
+        run: echo "1:${{ github.workflow_run.status }} 2:${{ github.event.workflow_run.status }} 3:${{ github.event.workflow_run.conclusion }}"
+      - name: '安装Python环境'
+        uses: 'actions/setup-python@v3'
+        with: 
+            python-version: 3.9
+            cache: 'pip' # caching pip dependencies
+        
+      - name: "配置依赖"
+        run: pip install -r requirements.txt
+
+      - name: "Python CacheTest"
+        env:
+            EMAIL_SMTP_DOMAIN: ${{ secrets.EMAIL_SMTP_DOMAIN }}
+            EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
+            EMAIL_SMTP_REV: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY }}
+            EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
+            EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}
+            FILE_ENCRYPT_DECRYPT_KEY: ${{ secrets.FILE_ENCRYPT_DECRYPT_KEY }}
+        run: python3 ./01.Python/testwait.py
+        
+     
+    
+     
