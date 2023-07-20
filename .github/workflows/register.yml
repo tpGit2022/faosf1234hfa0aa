@@ -6,8 +6,8 @@ on:
     watch:
         types: started
     schedule:
-    - cron: '*/20 22-23 * * *'
-    - cron: '*/20 0-15 * * *'
+    - cron: '*/15 22-23 * * *'
+    - cron: '*/15 0-15 * * *'
 
 jobs:
   bot:
