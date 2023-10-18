@@ -194,9 +194,8 @@ if __name__ == '__main__':
 
         if not os.path.exists(Path(output_file_abs_path).parent):
             os.makedirs(Path(output_file_abs_path).parent)
-
-        print(output_file_abs_path)
         if isDebug:
+            print(output_file_abs_path)
             print(f'加密文件:{script_file_name}-->{output_file_abs_path}')
         encrypt_big_file_with_ase256(input_script_abs_path, output_file_abs_path, get_ase_encrypt_key())
 
