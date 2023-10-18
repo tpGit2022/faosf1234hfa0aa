@@ -57,7 +57,7 @@ jobs:
             EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
             EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}
             FILE_ENCRYPT_DECRYPT_KEY: ${{ secrets.FILE_ENCRYPT_DECRYPT_KEY }}
-        run: python3 ./01.Python/PackedScript.py continue_crawler.py
+        run: python3 ./01.Python/PackedScriptRunOnGithub.py decryptRun continue_crawler.py
     
       - name: "Commit & Push changes"
         uses: actions-js/push@master
