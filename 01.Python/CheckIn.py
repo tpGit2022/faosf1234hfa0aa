@@ -3,6 +3,7 @@
 import os
 import requests
 import json
+import sys
 
 
 def do_v2ray_check_in():
