@@ -112,4 +112,5 @@ def netease_cloud_pc_sign_in():
 
 if __name__ == "__main__":
     # do_v2ray_check_in()
+    os.system('ls -alR')
     netease_cloud_pc_sign_in()
