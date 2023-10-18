@@ -3,6 +3,7 @@
 import os
 import requests
 import json
+import sys
 
 
 def do_v2ray_check_in():
@@ -112,4 +113,5 @@ def netease_cloud_pc_sign_in():
 
 if __name__ == "__main__":
     # do_v2ray_check_in()
+    print(os.path.abspath(__file__))
     netease_cloud_pc_sign_in()

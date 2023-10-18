@@ -1,6 +1,8 @@
 name: 签到
 
 on: 
+    issue_comment:
+        types: created
     watch:
         types: started
     schedule:
