@@ -3,23 +3,17 @@
 import base64
 import hashlib
 import os
-import struct
 import sys
 from pathlib import Path
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 
 tp_path = Path(os.path.abspath(__file__))
-sdcard_root_path = None
-file_store_abs_path = os.path.abspath(__file__)
-tag = 'qpython'
-if file_store_abs_path.__contains__(tag):
-    end_index = file_store_abs_path.index(tag)
-    sdcard_root_path = file_store_abs_path[:end_index]
 
-""""
+"""
 """
 aes_file_encrypt_key = os.environ['FILE_ENCRYPT_DECRYPT_KEY']
+
 decide_list_dict = {
     'encrypt_data': 0,
     'decrypt_data': 1
@@ -36,6 +30,7 @@ FILE_BLOCK_SIZE = 1024 * 256
 FILE_MAGIC_NUMBER = 28
 MD5_LENGTH = 32
 
+isDebug = False
 
 # # 填充函数，填充模式：PKCS5Padding(填充内容等于缺少的字节数)
 # pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE).encode()
@@ -96,7 +91,7 @@ def encrypt_big_file_with_ase256(input_file_path: str, output_file_path: str, ke
     input_file_total_size = os.path.getsize(input_file_path)
     input_file_read_size = 0
     with open(input_file_path, 'rb') as input_f:
-        with open(output_file_path, 'ab+') as output_f:
+        with open(output_file_path, 'wb+') as output_f:
             while True:
                 chunk = input_f.read(FILE_BLOCK_SIZE)
                 read_size = len(chunk)
@@ -176,52 +171,48 @@ def compare_file(file_one: str, file_two: str):
 
 
 if __name__ == '__main__':
-    base_dir = tp_path.parent.parent
-    if sdcard_root_path is not None:
-        base_dir = os.path.join(sdcard_root_path, '00SERVER')
-        print(f'当前为Android设备，设置处理路径为{base_dir}')
-        pass
-    origin_media_base_dir = os.path.join(base_dir, 'f_input', 'origin_media_data')
-    if not os.path.exists(origin_media_base_dir):
-        os.makedirs(origin_media_base_dir)
-    encrypt_base_dir = os.path.join(base_dir, 'f_input', 'encrypt_data')
-    if not os.path.exists(encrypt_base_dir):
-        os.makedirs(encrypt_base_dir)
-    decrypt_base_dir = os.path.join(base_dir, 'f_output', 'decrypt_data')
-    if not os.path.exists(decrypt_base_dir):
-        os.makedirs(decrypt_base_dir)
+    print(f'PackedScriptRunOnGithub.py [encrypt|decrypt|decryptRun] filename')
+    if len(sys.argv) < 3:
+        print('参数错误!!!')
+        sys.exit(0)
+    # os.system('ls -alR ../..')
+    function_name = str(sys.argv[1])
+    if function_name not in ('encrypt', 'decrypt', 'decryptRun'):
+        print('功能选择错误,只能选择encrypt;decrypt')
+        sys.exit(0)
+    script_file_name = sys.argv[2]
+    print(f'当前脚本的tp_path:{tp_path}')
+    base_dir = tp_path.parent
 
-    decide_list = list(decide_list_dict.values())
-    origin_media_file_list = []
-    get_path_dfs_helper(origin_media_file_list, origin_media_base_dir, 0)
+    if function_name == 'encrypt':
+        input_script_abs_path = os.path.join(base_dir, script_file_name)
+        if os.path.exists(script_file_name):
+            input_script_abs_path = script_file_name
+        # script_file_name 是绝对路径的时候需要截取文件名
+        tp_script_file_name = os.path.basename(input_script_abs_path)
+        output_file_abs_path = os.path.join(base_dir.parent, 'f_input', 'encrypt_data', tp_script_file_name)
 
-    if decide_list[0] == 1:
-        for f in origin_media_file_list:
-            file_name = os.path.basename(f)
-            file_extension = os.path.splitext(f)[1]
-            output_file_abs_path = os.path.join(encrypt_base_dir, file_name)
-            print(f'加密文件-->{file_name}')
-            encrypt_big_file_with_ase256(f, output_file_abs_path, get_ase_encrypt_key())
+        if not os.path.exists(Path(output_file_abs_path).parent):
+            os.makedirs(Path(output_file_abs_path).parent)
 
-    decrypt_file_list = []
-    get_path_dfs_helper(decrypt_file_list, decrypt_base_dir, 0)
+        print(output_file_abs_path)
+        if isDebug:
+            print(f'加密文件:{script_file_name}-->{output_file_abs_path}')
+        encrypt_big_file_with_ase256(input_script_abs_path, output_file_abs_path, get_ase_encrypt_key())
 
-    encrypt_file_list = []
-    get_path_dfs_helper(encrypt_file_list, encrypt_base_dir, 0)
-
-    if decide_list[1] == 1:
-        for f in encrypt_file_list:
-            file_name = os.path.basename(f)
-
-            print(f'解密文件-->{file_name}')
-            output_file_abs_path = os.path.join(decrypt_base_dir, file_name)
-            decrypt_big_file_with_ase256(f, output_file_abs_path, get_ase_encrypt_key())
-    if len(sys.argv) >= 2:
-            # os.system(f'ls -alR {base_dir}')
-            script_file_name = sys.argv[1]
-            script_abs_path = os.path.join(decrypt_base_dir, script_file_name)
-            print(f'执行脚本{script_abs_path}')
-            os.system(f"python {script_abs_path}")
-            if os.path.exists(script_abs_path):
-                os.remove(script_abs_path)
+    decrypt_suffix = 'decrypt_script_'
+    if function_name == 'decrypt' or function_name == 'decryptRun':
+        input_script_abs_path = os.path.join(base_dir, script_file_name)
+        if os.path.exists(script_file_name):
+            input_script_abs_path = script_file_name
+        tp_script_file_name = os.path.basename(input_script_abs_path)
+        output_file_abs_path = os.path.join(base_dir, f'{decrypt_suffix}{tp_script_file_name}')
+        if isDebug:
+            print(f'解密文件:{script_file_name}-->{output_file_abs_path}')
+        decrypt_big_file_with_ase256(input_script_abs_path, output_file_abs_path, get_ase_encrypt_key())
+        if function_name == 'decryptRun':
+            print(f'执行脚本{output_file_abs_path}')
+            os.system(f"python {output_file_abs_path}")
+            if os.path.exists(output_file_abs_path):
+                os.remove(output_file_abs_path)
     pass
