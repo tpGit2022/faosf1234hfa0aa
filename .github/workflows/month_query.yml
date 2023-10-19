@@ -1,8 +1,6 @@
 name: Python MonthQuery
 
 on:
-    watch:
-        types: started
     schedule:
     - cron: '50 2 16 * *'
     - cron: '50 2 22 * *'
