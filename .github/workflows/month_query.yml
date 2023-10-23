@@ -1,8 +1,6 @@
 name: Python MonthQuery
 
 on:
-    issue_comment:
-        types: created
     schedule:
     - cron: '50 2 16 * *'
     - cron: '50 2 22 * *'
