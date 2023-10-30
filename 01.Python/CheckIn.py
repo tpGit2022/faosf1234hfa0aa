@@ -3,7 +3,22 @@
 import os
 import requests
 import json
-import sys
+import urllib3
+urllib3.disable_warnings()
+
+using_proxy = False
+
+proxy_fiddler = {
+    "http": "http://127.0.0.1:7878",
+    "https": "http://127.0.0.1:7878"
+}
+
+proxy_v2ray = {
+    "http": "http://127.0.0.1:10809",
+    "https": "http://127.0.0.1:10809"
+}
+
+http_proxy = proxy_fiddler
 
 
 def do_v2ray_check_in():
@@ -111,7 +126,33 @@ def netease_cloud_pc_sign_in():
         print(response_list)
 
 
+def netease_note_checkin():
+    """
+    有道云笔记签到
+    :return:
+    """
+    post_url = 'https://note.youdao.com/yws/mapi/user?method=checkin'
+    request_header = {
+        "User-Agent": "ynote-android",
+        "Cookie": f"{os.environ['NETEASE_CLOUD_NOTE_COOKIES']}",
+        "Accept-Encoding": "gzip",
+        "Accept-Charset": "GBK,utf-8;q=0.7,*;q=0.3",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": "483",
+        "Host": "note.youdao.com",
+        "Connection": "Keep-Alive"
+    }
+    post_data = f"{os.environ['NETEASE_CLOUD_NOTE_POST_DATA']}"
+    if using_proxy:
+        r = requests.post(url=post_url, headers=request_header, data= post_data, proxies= http_proxy, verify=False)
+    else:
+        r = requests.post(url=post_url, headers=request_header, data= post_data)
+    print(r.text)
+    pass
+
+
 if __name__ == "__main__":
     # do_v2ray_check_in()
-    print(os.path.abspath(__file__))
+    # print(os.path.abspath(__file__))
     netease_cloud_pc_sign_in()
+    netease_note_checkin()
