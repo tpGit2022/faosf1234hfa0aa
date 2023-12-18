@@ -154,5 +154,5 @@ def netease_note_checkin():
 if __name__ == "__main__":
     # do_v2ray_check_in()
     # print(os.path.abspath(__file__))
-    netease_cloud_pc_sign_in()
+    # netease_cloud_pc_sign_in()
     netease_note_checkin()
