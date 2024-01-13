@@ -119,7 +119,7 @@ def get_lottery_info_from_office(end_period_num):
         lt_index = lt_index + 1
     write_exec_result_to_file(success_msg)
     print(f"{current_period_num} {end_period_num}")
-    if (end_period_num - 2) <= int(current_period_num)):
+    if (end_period_num - 2) <= int(current_period_num):
         # avoid too much email send to user if beyond date to much
         return True
     else:
