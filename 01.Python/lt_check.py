@@ -118,7 +118,8 @@ def get_lottery_info_from_office(end_period_num):
             f"office release code:发售日期:{lt_list[lt_index][0]} 期号:{lt_list[lt_index][1]} 发布:{lt_list[lt_index][2]}")
         lt_index = lt_index + 1
     write_exec_result_to_file(success_msg)
-    if (end_period_num - 2) <= current_period_num < (end_period_num + 2):
+    print(f"{current_period_num} {end_period_num}")
+    if (end_period_num - 2) <= int(current_period_num)):
         # avoid too much email send to user if beyond date to much
         return True
     else:
