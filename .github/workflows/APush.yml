@@ -1,0 +1,35 @@
+name: Python Register
+
+on:
+    issue_comment:
+        types: created
+    watch:
+        types: started
+    schedule:
+    - cron: '* * * 3W * ? '
+    - cron: '* * * 5W * ? '
+
+jobs:
+  bot:
+    environment: EMAIL_CONFIG
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v3
+        
+        with:
+            persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+            fetch-depth: 0 # otherwise, you will failed to push 
+      
+      
+      - name: "获取北京时间"
+        run: bash ./00.LinuxShell/action_log.sh
+      
+      - name: "Commit & Push changes"
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.PUSH_KEY }}
+          author_email: "tp_proton_aly@protonmail.com"
+          author_name: "tpa"
+    
+     
