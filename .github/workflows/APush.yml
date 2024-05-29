@@ -1,4 +1,4 @@
-name: Python Register
+name: Auto Push Action
 
 on:
     issue_comment:
