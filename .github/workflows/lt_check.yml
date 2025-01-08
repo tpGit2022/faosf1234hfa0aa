@@ -52,6 +52,6 @@ jobs:
             EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
             EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}
             LT_INPUT_CODE: ${{ secrets.LT_INPUT_CODE }}
-        run: python3 ./01.Python/lt_check.py 20 2024_11_22 24136
+        run: python3 ./01.Python/lt_check.py 20 2025_01_06 25003
     
      
