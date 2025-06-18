@@ -105,8 +105,8 @@ def get_lottery_info_from_office(end_period_num):
     else:
         tp_str = f"\nnothing hit...\n"
         write_exec_result_to_file(tp_str)
-    success_msg = f"the cur period num:{current_period_num} date:{current_date} the end period num:{end_period_num}" \
-                  f"\nusr_input_code:{usr_input_code}\noffice_rea_code:{origin_code}\n\n"
+    success_msg = f"the cur period num:{current_period_num}\ndate:{current_date}\nthe end period num:{end_period_num}" \
+                  f"\n\n\nusr_input_code:{usr_input_code}\noffice_rea_code:{origin_code}\n\n"
     # write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
