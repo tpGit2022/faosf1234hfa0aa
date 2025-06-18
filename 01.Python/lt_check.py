@@ -99,14 +99,14 @@ def get_lottery_info_from_office(end_period_num):
         regex = re.compile("\\s")
         tp_input_code = regex.sub('', usr_input_code)
         tp_release_code = regex.sub('', origin_code)
-        tp_str = f"<br>Congratulate you are so lucky {ret_list}<br><br>input_code-->release_code:" \
-                 f"<br><br>{tp_input_code}<br>{tp_release_code} "
+        tp_str = f"Congratulate you are so lucky {ret_list}\n\n>input_code-->release_code:" \
+                 f"\n{tp_input_code}\t{tp_release_code} "
         write_exec_result_to_file(tp_str)
     else:
-        tp_str = f"<br>nothing hit...<br>"
+        tp_str = f"\n\nnothing hit...\n\n"
         write_exec_result_to_file(tp_str)
     success_msg = f"the cur period num:{current_period_num} date:{current_date}<br>the end period num:{end_period_num}" \
-                  f"<br>usr_input_code:{usr_input_code}<br>office_rea_code:{origin_code}<br><br><br>"
+                  f"\n\nusr_input_code:{usr_input_code}\n\noffice_rea_code:{origin_code}\n\n\n"
     # write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
