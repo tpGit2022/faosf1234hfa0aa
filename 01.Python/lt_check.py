@@ -85,9 +85,8 @@ def lottery_code_check(input_code, release_code):
     return [0, 0]
 
 
-def get_lottery_info_from_office(end_period_num):
+def get_lottery_info_from_office(end_period_num) -> bool:
     lt_list = get_last_release_num()
-    # print(f'lt_list:{lt_list}')
     current_date = lt_list[0][0]
     current_period_num = lt_list[0][1]
     origin_code = lt_list[0][2]
@@ -99,28 +98,26 @@ def get_lottery_info_from_office(end_period_num):
         regex = re.compile("\\s")
         tp_input_code = regex.sub('', usr_input_code)
         tp_release_code = regex.sub('', origin_code)
-        tp_str = f"Congratulate you are so lucky {ret_list}\n>input_code-->release_code:" \
-                 f"\n{tp_input_code}\t{tp_release_code} "
+        tp_str = f"<br>Congratulate you are so lucky {ret_list}<br><br>input_code-->release_code:" \
+                 f"<br><br>{tp_input_code}<br>{tp_release_code} "
         write_exec_result_to_file(tp_str)
     else:
-        tp_str = f"\nnothing hit...\n"
+        tp_str = f"<br>nothing hit...<br>"
         write_exec_result_to_file(tp_str)
-    success_msg = f"the cur period num:{current_period_num}\ndate:{current_date}\nthe end period num:{end_period_num}" \
-                  f"\n\n\nusr_input_code:{usr_input_code}\noffice_rea_code:{origin_code}\n\n"
+    success_msg = f"the cur period num:{current_period_num} date:{current_date}<br>the end period num:{end_period_num}" \
+                  f"<br>usr_input_code:{usr_input_code}<br>office_rea_code:{origin_code}<br><br><br>"
     # write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
     while lt_index < len(lt_list) and lt_index < 4:
         office_release_origin_code = lt_list[lt_index][2]
         # print(f"office release code:{office_release_origin_code}")
-        success_msg = success_msg + f"office release code:{office_release_origin_code}"
+        success_msg = success_msg + f"office release code:{office_release_origin_code}<br>"
         print(
             f"office release code:发售日期:{lt_list[lt_index][0]} 期号:{lt_list[lt_index][1]} 发布:{lt_list[lt_index][2]}")
         lt_index = lt_index + 1
     write_exec_result_to_file(success_msg)
-    print(f"当前期数:{current_period_num} 截至有效期数:{end_period_num}")
-    print(f"邮件提醒期数区间:[{end_period_num -2}~{end_period_num + 2}]")
-    if (end_period_num - 2) <= int(current_period_num) <= (end_period_num + 2):
+    if (end_period_num - 2) <= int(current_period_num) < (end_period_num + 2):
         # avoid too much email send to user if beyond date to much
         return True
     else:
@@ -135,23 +132,35 @@ def get_last_release_num() -> list:
     """
     gdtc_lst = None
     gstc_list = None
+    gdtc_lst2 = None
     try:
         gdtc_lst = get_last_info_from_gdtc()
     except Exception as e:
         print('gdtc获取数据出错')
         print(e.args)
     print(f'gdtc:{gdtc_lst}')
+
+    try:
+        gdtc_lst2 = get_last_info_from_gdtc2()
+    except Exception as e:
+        print('gstc2获取数据出错')
+        print(e.args)
+
     try:
         gstc_list = get_last_info_from_gstc()
     except Exception as e:
         print('gstc获取数据出错')
         print(e.args)
     print(f'gstc:{gstc_list}')
-    if (gdtc_lst is None or len(gdtc_lst) <= 0) and (gstc_list is None or len(gstc_list) <= 0):
+
+
+    if (gdtc_lst is None or len(gdtc_lst) <= 0) and (gstc_list is None or len(gstc_list) <= 0) and (gdtc_lst2 is None or len(gdtc_lst2) <= 0):
         print('未正常获取到数据')
         sys.exit(-1)
     if gdtc_lst is None or len(gdtc_lst) <= 0:
         return gstc_list
+    if gdtc_lst2 is None or len(gdtc_lst2) <= 0:
+        return gdtc_lst2
     if gstc_list is None or len(gstc_list) <= 0:
         return gdtc_lst
     return gstc_list
@@ -183,6 +192,44 @@ def get_last_info_from_gdtc() -> list:
     current_date = lt_list[0]['saleDate']
 
     # print(f"office_release_code={origin_code}")
+    origin_code = origin_code.replace(" ", "@")
+    origin_code = origin_code.replace("+", " ")
+    origin_code = origin_code.replace("@", "+")
+    lt_list = [(current_date, current_period_num, origin_code)]
+    return lt_list
+    pass
+
+
+def get_last_info_from_gdtc2() -> list:
+    url = "https://www.gdlottery.cn/f_html/kjgg/tcnotice.json?"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/98.0.4758.102 Safari/537.36",
+        "DNT": "1",
+        "X-Requested-With": "XMLHttpRequest",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "Windows",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "https://www.gdlottery.cn/html/help/lskj.html"
+    }
+    timestamp_ms = int(time.time() * 1000)
+    url = url + str(timestamp_ms)
+    r = requests.get(url, headers=headers)
+    # if using_proxy:
+    #     r = requests.get(url, headers=headers, proxies=proxies)
+    # else:
+    #     r = requests.get(url, headers=headers)
+    print(r.status_code)
+    # # print(r.content)
+    # print(r.text)
+    lt_list = json.loads(r.text)
+    origin_code = lt_list[0]["kjhm"]
+    current_period_num = int(lt_list[0]['drawid'])
+    current_date = lt_list[0]['saleDate']
+    #
+    print(f"office_release_code={origin_code}")
     origin_code = origin_code.replace(" ", "@")
     origin_code = origin_code.replace("+", " ")
     origin_code = origin_code.replace("@", "+")
@@ -226,15 +273,15 @@ def get_last_info_from_gstc() -> list:
 
 def write_exec_result_to_file(log_str):
     with open(report_file_name, mode="a+", encoding="UTF-8") as file:
-        input_str = f"{log_str}"
+        input_str = f"<br>{log_str}"
         file.write(input_str)
 
 
 def write_message_header():
     m_time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-    tp_str = f"\n===================================\n" \
-             f"the python exec at {m_time_stamp}" \
-             f"\n===================================\n"
+    tp_str = f"<br><br>===================================" \
+             f"<br>the python exec at {m_time_stamp}" \
+             f"<br>===================================<br>"
     write_exec_result_to_file(tp_str)
 
 
@@ -259,7 +306,7 @@ def send_email_with_smtp(is_out_dated):
     with open(report_file_name, 'r') as report_f:
         report_string = report_f.read()
     msg = MIMEText(report_string, 'plain', 'UTF-8')
-    msg['From'] = formataddr((Header("小秘书", "UTF-8").encode(), "this_addr_is_random_write@qq.com"))
+    msg['From'] = formataddr((Header("小秘书", "UTF-8").encode(), "YouKnowNothing@qq.com"))
     msg['To'] = f"{email_config_server_recv_user_name}"
     email_subject = ""
     if list_prize_level[0] == 1 or list_prize_level[0] == 2:
@@ -321,3 +368,5 @@ def fun_exec():
 
 if __name__ == '__main__':
     fun_exec()
+    # print(requests.utils.get_environ_proxies("https://www.gdlottery.cn"))
+
