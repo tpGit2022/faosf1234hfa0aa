@@ -87,6 +87,7 @@ def lottery_code_check(input_code, release_code):
 
 def get_lottery_info_from_office(end_period_num) -> bool:
     lt_list = get_last_release_num()
+    print(lt_list)
     current_date = lt_list[0][0]
     current_period_num = lt_list[0][1]
     origin_code = lt_list[0][2]
@@ -142,6 +143,7 @@ def get_last_release_num() -> list:
 
     try:
         gdtc_lst2 = get_last_info_from_gdtc2()
+        print(gdtc_lst2)
     except Exception as e:
         print('gstc2获取数据出错')
         print(e.args)
@@ -153,17 +155,15 @@ def get_last_release_num() -> list:
         print(e.args)
     print(f'gstc:{gstc_list}')
 
-
-    if (gdtc_lst is None or len(gdtc_lst) <= 0) and (gstc_list is None or len(gstc_list) <= 0) and (gdtc_lst2 is None or len(gdtc_lst2) <= 0):
+    valid_list = next(
+        (lst for lst in [gdtc_lst, gstc_list, gdtc_lst2] if isinstance(lst, list) and len(lst) > 0),
+        None
+    )
+    print(valid_list)
+    if valid_list is None or len(valid_list) <= 0:
         print('未正常获取到数据')
         sys.exit(-1)
-    if gdtc_lst is None or len(gdtc_lst) <= 0:
-        return gstc_list
-    if gdtc_lst2 is None or len(gdtc_lst2) <= 0:
-        return gdtc_lst2
-    if gstc_list is None or len(gstc_list) <= 0:
-        return gdtc_lst
-    return gstc_list
+    return valid_list
     pass
 
 
@@ -367,6 +367,7 @@ def fun_exec():
 
 
 if __name__ == '__main__':
+    os.environ['LT_INPUT_CODE'] = "04 16 27 28 29 + 04 09"
     fun_exec()
     # print(requests.utils.get_environ_proxies("https://www.gdlottery.cn"))
 
