@@ -87,7 +87,6 @@ def lottery_code_check(input_code, release_code):
 
 def get_lottery_info_from_office(end_period_num) -> bool:
     lt_list = get_last_release_num()
-    print(lt_list)
     current_date = lt_list[0][0]
     current_period_num = lt_list[0][1]
     origin_code = lt_list[0][2]
@@ -143,7 +142,7 @@ def get_last_release_num() -> list:
 
     try:
         gdtc_lst2 = get_last_info_from_gdtc2()
-        print(gdtc_lst2)
+        print(f'gdtc2:{gdtc_lst2}')
     except Exception as e:
         print('gstc2获取数据出错')
         print(e.args)
