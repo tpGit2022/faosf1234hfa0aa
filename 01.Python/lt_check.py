@@ -98,14 +98,14 @@ def get_lottery_info_from_office(end_period_num) -> bool:
         regex = re.compile("\\s")
         tp_input_code = regex.sub('', usr_input_code)
         tp_release_code = regex.sub('', origin_code)
-        tp_str = f"Congratulate you are so lucky {ret_list}input_code-->release_code:" \
-                 f"{tp_input_code}{tp_release_code} "
+        tp_str = f"\nCongratulate you are so lucky {ret_list}input_code-->release_code:" \
+                 f"{tp_input_code}{tp_release_code}\n"
         write_exec_result_to_file(tp_str)
     else:
         tp_str = f"nothing hit..."
         write_exec_result_to_file(tp_str)
-    success_msg = f"the cur period num:{current_period_num} date:{current_date}the end period num:{end_period_num}" \
-                  f"usr_input_code:{usr_input_code}office_rea_code:{origin_code}"
+    success_msg = f"\nthe cur period num:{current_period_num} date:{current_date}\nthe end period num:{end_period_num}" \
+                  f"\nusr_input_code:{usr_input_code}\noffice_rea_code:{origin_code}"
     # write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
@@ -114,7 +114,7 @@ def get_lottery_info_from_office(end_period_num) -> bool:
         # print(f"office release code:{office_release_origin_code}")
         success_msg = success_msg + f"office release code:{office_release_origin_code}"
         print(
-            f"office release code:发售日期:{lt_list[lt_index][0]} 期号:{lt_list[lt_index][1]} 发布:{lt_list[lt_index][2]}")
+            f"\noffice release code:发售日期:{lt_list[lt_index][0]} 期号:{lt_list[lt_index][1]} 发布:{lt_list[lt_index][2]}")
         lt_index = lt_index + 1
     write_exec_result_to_file(success_msg)
     if (end_period_num - 2) <= int(current_period_num) < (end_period_num + 2):
