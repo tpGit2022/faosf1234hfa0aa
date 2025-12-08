@@ -98,21 +98,21 @@ def get_lottery_info_from_office(end_period_num) -> bool:
         regex = re.compile("\\s")
         tp_input_code = regex.sub('', usr_input_code)
         tp_release_code = regex.sub('', origin_code)
-        tp_str = f"Congratulate you are so lucky {ret_list} input_code-->release_code:" \
-                 f"{tp_input_code} {tp_release_code} "
+        tp_str = f"Congratulate you are so lucky {ret_list}input_code-->release_code:" \
+                 f"{tp_input_code}{tp_release_code} "
         write_exec_result_to_file(tp_str)
     else:
-        tp_str = f"<br>nothing hit...<br>"
+        tp_str = f"nothing hit..."
         write_exec_result_to_file(tp_str)
-    success_msg = f"the cur period num:{current_period_num} date:{current_date}<br>the end period num:{end_period_num}" \
-                  f"usr_input_code:{usr_input_code}\noffice_rea_code:{origin_code}"
+    success_msg = f"the cur period num:{current_period_num} date:{current_date}the end period num:{end_period_num}" \
+                  f"usr_input_code:{usr_input_code}office_rea_code:{origin_code}"
     # write_exec_result_to_file(success_msg)
     # print office release code
     lt_index = 0
     while lt_index < len(lt_list) and lt_index < 4:
         office_release_origin_code = lt_list[lt_index][2]
         # print(f"office release code:{office_release_origin_code}")
-        success_msg = success_msg + f"office release code:{office_release_origin_code}<br>"
+        success_msg = success_msg + f"office release code:{office_release_origin_code}"
         print(
             f"office release code:发售日期:{lt_list[lt_index][0]} 期号:{lt_list[lt_index][1]} 发布:{lt_list[lt_index][2]}")
         lt_index = lt_index + 1
@@ -272,15 +272,15 @@ def get_last_info_from_gstc() -> list:
 
 def write_exec_result_to_file(log_str):
     with open(report_file_name, mode="a+", encoding="UTF-8") as file:
-        input_str = f"<br>{log_str}"
+        input_str = f"{log_str}"
         file.write(input_str)
 
 
 def write_message_header():
     m_time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-    tp_str = f"<br><br>===================================" \
-             f"<br>the python exec at {m_time_stamp}" \
-             f"<br>===================================<br>"
+    tp_str = f"===================================" \
+             f"the python exec at {m_time_stamp}" \
+             f"==================================="
     write_exec_result_to_file(tp_str)
 
 
