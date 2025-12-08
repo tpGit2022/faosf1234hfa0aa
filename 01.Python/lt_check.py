@@ -112,7 +112,7 @@ def get_lottery_info_from_office(end_period_num) -> bool:
     while lt_index < len(lt_list) and lt_index < 4:
         office_release_origin_code = lt_list[lt_index][2]
         # print(f"office release code:{office_release_origin_code}")
-        success_msg = success_msg + f"office release code:{office_release_origin_code}"
+        success_msg = success_msg + f"\noffice release code:{office_release_origin_code}"
         print(
             f"\noffice release code:发售日期:{lt_list[lt_index][0]} 期号:{lt_list[lt_index][1]} 发布:{lt_list[lt_index][2]}")
         lt_index = lt_index + 1
@@ -278,9 +278,9 @@ def write_exec_result_to_file(log_str):
 
 def write_message_header():
     m_time_stamp = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
-    tp_str = f"===================================" \
+    tp_str = f"\n===================================\n" \
              f"the python exec at {m_time_stamp}" \
-             f"==================================="
+             f"\n===================================\n"
     write_exec_result_to_file(tp_str)
 
 
