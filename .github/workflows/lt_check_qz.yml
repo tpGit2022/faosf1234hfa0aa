@@ -47,10 +47,10 @@ jobs:
         env:
             EMAIL_SMTP_DOMAIN: ${{ secrets.EMAIL_SMTP_DOMAIN }}
             EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
-            EMAIL_SMTP_REV: ${{ secrets.EMAIL_RECV_ADDR_SIS }}
+            EMAIL_SMTP_REV: ${{ secrets.EMAIL_ADDRESS_FOR_NOTIFY  }}
             EMAIL_SMTP_USER_NAME: ${{ secrets.EMAIL_SMTP_USER_NAME }}
             EMAIL_SMTP_USER_PWD: ${{ secrets.EMAIL_SMTP_USER_PWD }}
             LT_INPUT_CODE: ${{ secrets.QZ_LT_INPUT_CODE }}
-        run: python3 ./01.Python/lt_check.py 12 2023_02_20 23018
+        run: python3 ./01.Python/lt_check.py 20 2026_07_22 26082
     
      
