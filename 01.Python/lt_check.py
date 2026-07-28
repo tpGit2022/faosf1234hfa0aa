@@ -366,7 +366,8 @@ def fun_exec():
 
 
 if __name__ == '__main__':
-    os.environ['LT_INPUT_CODE'] = "04 16 27 28 29 + 04 09"
+    # os.environ['LT_INPUT_CODE'] = "04 16 27 28 29 + 04 09"
+    print(os.environ['LT_INPUT_CODE'])
     fun_exec()
     # print(requests.utils.get_environ_proxies("https://www.gdlottery.cn"))
 
