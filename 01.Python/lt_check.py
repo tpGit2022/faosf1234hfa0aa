@@ -366,8 +366,10 @@ def fun_exec():
 
 
 if __name__ == '__main__':
+    print("测试打印打印打印打印..........")
     # os.environ['LT_INPUT_CODE'] = "04 16 27 28 29 + 04 09"
     print(os.environ['LT_INPUT_CODE'])
+    print("测试打印打印结束结束..........")
     fun_exec()
     # print(requests.utils.get_environ_proxies("https://www.gdlottery.cn"))
 
